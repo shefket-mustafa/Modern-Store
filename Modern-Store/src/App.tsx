@@ -14,6 +14,7 @@ import About from "./pages/About";
 import { ProductDetail } from "./pages/ProductDetails";
 import { Footer } from "./components/Footer";
 import { Cart } from "./components/Cart";
+import ScrollOnTop from "./helpers/ScrollOnTop";
 
 const queryClient = new QueryClient();
 
@@ -62,6 +63,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <ScrollOnTop />
         <Toaster />
         <Sonner />
           <div className="min-h-screen bg-background flex flex-col">
