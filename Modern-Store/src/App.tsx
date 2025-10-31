@@ -74,6 +74,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Landing onAddToCart={handleAddToCart} />} />
               <Route path="/shop" element={<Shop onAddToCart={handleAddToCart} />} />
+               <Route path="/shop/:category" element={<Shop onAddToCart={handleAddToCart} />} />
               <Route path="/about" element={<About />} />
               <Route path="/product/:id" element={<ProductDetail onAddToCart={handleAddToCart} />} />
               <Route path="*" element={<NotFound />} />

@@ -16,19 +16,16 @@ export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
         </Link>
         
         <nav className="hidden md:flex gap-8 items-center">
-          <Link to="/" className="hover:text-accent transition-colors font-medium">
+          <Link to="/" className="hover:text-accent hover:underline hover:shadow-lg transition font-medium">
             Home
           </Link>
-          <Link to="/shop?category=men" className="hover:text-accent transition-colors font-medium">
+          <Link to="/shop/men" className="hover:text-accent hover:underline hover:shadow-lg transition font-medium">
             Men
           </Link>
-          <Link to="/shop?category=women" className="hover:text-accent transition-colors font-medium">
+          <Link to="/shop/women" className="hover:text-accent hover:underline hover:shadow-lg transition font-medium">
             Women
           </Link>
-          <Link to="/shop" className="hover:text-accent transition-colors font-medium">
-            Shop
-          </Link>
-          <Link to="/about" className="hover:text-accent transition-colors font-medium">
+          <Link to="/about" className="hover:text-accent hover:underline hover:shadow-lg transition font-medium">
             About
           </Link>
         </nav>
@@ -37,7 +34,7 @@ export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
           variant="ghost" 
           size="icon" 
           onClick={onCartClick}
-          className="relative"
+          className="relative hover:scale-150 transition cursor-pointer"
         >
           <ShoppingCart className="h-5 w-5" />
           {cartItemsCount > 0 && (
