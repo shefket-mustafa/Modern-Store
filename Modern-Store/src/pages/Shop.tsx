@@ -1,19 +1,38 @@
-import { useState } from "react";
 import { CategoryFilter } from "../components/CategoryFilter";
 import { ProductCard } from "../components/ProductCard";
 import { filterProducts } from "../helpers/filterProducts";
 import { mockProducts } from "../data/mockProducts";
-import type { Size, FilterState, Product } from "../types";
+import type { Product, ShopProps, ShopTitleTypes } from "../types";
+import { useShop } from "../context/ShopContext";
+import { useEffect } from "react";
+import { useLocation } from "react-router";
 
-interface ShopProps {
-  onAddToCart: (productId: string, size: Size, quantity: number) => void;
-}
+
 
 export const Shop = ({ onAddToCart }: ShopProps) => {
-  const [filters, setFilters] = useState<FilterState>({
-    category: "all",
-    subcategory: null,
-  });
+
+  const { filters, setFilters, shopTitle, setShopTitle } = useShop();
+  const pathname = useLocation().pathname;
+  const title = pathname.split("/").pop()?.toLowerCase();
+
+  useEffect(() => {
+    let safeTitle: ShopTitleTypes;
+
+    switch (title) {
+      case "men":
+        safeTitle = "Men's Collection";
+        break;
+      case "women":
+        safeTitle = "Women's Collection";
+        break;
+      default:
+        safeTitle = "All Products";
+    }
+    setShopTitle(safeTitle)
+  },[title, setShopTitle]);
+
+  console.log(shopTitle);
+  
 
   const filteredProducts = filterProducts(mockProducts, filters);
 
@@ -31,9 +50,7 @@ export const Shop = ({ onAddToCart }: ShopProps) => {
         <main className="md:col-span-3">
           <div className="mb-6">
             <h1 className="text-3xl font-bold mb-2">
-              {filters.category === "all"
-                ? "All Products"
-                : `${filters.category.charAt(0).toUpperCase() + filters.category.slice(1)}'s Collection`}
+              {shopTitle}
             </h1>
             <p className="text-muted-foreground">
               {filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"}

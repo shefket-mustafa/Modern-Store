@@ -25,3 +25,17 @@ export interface FilterState {
   category: Category;
   subcategory?: Subcategory | null; 
 }
+
+export interface ShopProps {
+  onAddToCart: (productId: string, size: Size, quantity: number) => void;
+}
+
+export type ShopContextType = {
+    filters: FilterState;
+    setFilters: React.Dispatch<React.SetStateAction<FilterState>>;
+    resetFilters: () => void;
+    shopTitle: string;
+    setShopTitle: React.Dispatch<React.SetStateAction<ShopTitleTypes>>;
+}
+
+export type ShopTitleTypes = "All Products" | "Men's Collection" | "Women's Collection";

@@ -40,9 +40,10 @@ const subcategories = [
 ];
 
 export const CategoryFilter = ({ filters, onFilterChange }: CategoryFilterProps) => {
+  
   return (
     <div className="space-y-6">
-      {/* <h3 className="font-semibold mb-3 text-lg">Shop by Type</h3> */}
+      {/* Category Buttons */}
       <div className="flex flex-col justify-center items-center gap-4">
         {subcategories.map((sub) => {
           const isActive = filters.subcategory === sub.value;

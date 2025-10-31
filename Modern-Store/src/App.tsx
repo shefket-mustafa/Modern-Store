@@ -15,6 +15,7 @@ import { ProductDetail } from "./pages/ProductDetails";
 import { Footer } from "./components/Footer";
 import { Cart } from "./components/Cart";
 import ScrollOnTop from "./helpers/ScrollOnTop";
+import { ShopProvider } from "./context/ShopContext";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +64,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <ShopProvider>
         <ScrollOnTop />
         <Toaster />
         <Sonner />
@@ -88,6 +90,7 @@ const App = () => {
               onUpdateQuantity={handleUpdateQuantity}
             />
           </div>
+          </ShopProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );
