@@ -24,18 +24,18 @@ export const Landing = ({ onAddToCart }: LandingProps) => {
         />
         <div className="relative z-10 text-center text-white px-4">
           <h1 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight">
-            MODERN<span className="text-accent">STORE</span>
+            MODERN<span className="text-accent text-orange-500">STORE</span>
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto font-light">
             Elevate your style with our curated collection of contemporary fashion
           </p>
           <div className="flex gap-4 justify-center">
-            <Button size="lg" className="text-lg px-8" asChild>
+            <Button size="lg" className="text-lg px-8 bg-white/10 backdrop-blur-sm border-white border text-white hover:bg-white/30 hover:text-primary" asChild>
               <Link to="/shop">
                 Shop Now <ArrowRight className="ml-2" />
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white hover:text-primary" asChild>
+            <Button size="lg" variant="outline" className="text-lg px-8 bg-white/10 backdrop-blur-sm border-white text-white hover:bg-white/30 hover:text-primary" asChild>
               <Link to="/about">Learn More</Link>
             </Button>
           </div>
@@ -108,7 +108,7 @@ export const Landing = ({ onAddToCart }: LandingProps) => {
       </section>
 
       {/* Brand Statement */}
-      <section className="py-20 bg-primary text-primary-foreground">
+      <section className="py-20 bg-primary text-primary-foreground bg-black/90 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Fashion That Speaks Your Language
@@ -117,8 +117,8 @@ export const Landing = ({ onAddToCart }: LandingProps) => {
             We believe in creating timeless pieces that blend contemporary design with exceptional quality. 
             Every item in our collection is carefully selected to ensure you look and feel your best.
           </p>
-          <Button size="lg" variant="secondary" asChild>
-            <Link to="/about">Our Story</Link>
+          <Button size="lg" className='bg-white hover:bg-white/80 transition rounded-lg' variant="secondary" asChild>
+            <Link className='text-black text-xl ' to="/about">Our Story</Link>
           </Button>
         </div>
       </section>

@@ -14,6 +14,8 @@ import About from "./pages/About";
 import { ProductDetail } from "./pages/ProductDetails";
 import { Footer } from "./components/Footer";
 import { Cart } from "./components/Cart";
+import ScrollOnTop from "./helpers/ScrollOnTop";
+import { ShopProvider } from "./context/ShopContext";
 
 const queryClient = new QueryClient();
 
@@ -62,6 +64,8 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <ShopProvider>
+        <ScrollOnTop />
         <Toaster />
         <Sonner />
           <div className="min-h-screen bg-background flex flex-col">
@@ -72,6 +76,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Landing onAddToCart={handleAddToCart} />} />
               <Route path="/shop" element={<Shop onAddToCart={handleAddToCart} />} />
+               <Route path="/shop/:category" element={<Shop onAddToCart={handleAddToCart} />} />
               <Route path="/about" element={<About />} />
               <Route path="/product/:id" element={<ProductDetail onAddToCart={handleAddToCart} />} />
               <Route path="*" element={<NotFound />} />
@@ -85,6 +90,7 @@ const App = () => {
               onUpdateQuantity={handleUpdateQuantity}
             />
           </div>
+          </ShopProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );
