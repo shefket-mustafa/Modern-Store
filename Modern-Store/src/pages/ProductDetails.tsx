@@ -22,7 +22,10 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
         <h1 className="text-2xl font-bold mb-4">Product not found</h1>
-        <Button onClick={() => navigate('/')}>Back to Home</Button>
+        <Button
+        className='cursor-pointer border'
+        onClick={() => navigate('/')}
+        >Back to Home</Button>
       </div>
     );
   }
@@ -47,7 +50,7 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
     <div className="container mx-auto px-4 py-8">
       <Button
         variant="ghost"
-        className="mb-6"
+        className="mb-6 cursor-pointer border hover:bg-black hover:text-white transition-colors duration-300"
         onClick={() => navigate(-1)}
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
@@ -84,7 +87,7 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
                   key={size}
                   variant={selectedSize === size ? 'default' : 'outline'}
                   onClick={() => setSelectedSize(size)}
-                  className="min-w-[60px]"
+                  className={`min-w-[60px] cursor-pointer ${selectedSize === size ? "bg-black text-white" : ""} hover:bg-black hover:text-white transition-colors duration-300`}
                 >
                   {size}
                 </Button>
@@ -96,6 +99,7 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
             <h3 className="font-semibold mb-3">Quantity</h3>
             <div className="flex items-center gap-4">
               <Button
+              className='cursor-pointer hover:bg-black hover:text-white transition-colors duration-300'
                 variant="outline"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
               >
@@ -103,6 +107,7 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
               </Button>
               <span className="text-xl font-semibold w-12 text-center">{quantity}</span>
               <Button
+              className='cursor-pointer hover:bg-black hover:text-white transition-colors duration-300'
                 variant="outline"
                 onClick={() => setQuantity(quantity + 1)}
               >
@@ -113,7 +118,7 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
 
           <Button
             size="lg"
-            className="w-full"
+            className="cursor-pointer border hover:bg-black hover:text-white transition-colors duration-300"
             onClick={handleAddToCart}
             disabled={!product.inStock}
           >
