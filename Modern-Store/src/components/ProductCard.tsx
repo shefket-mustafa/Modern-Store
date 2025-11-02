@@ -20,7 +20,6 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
-    
     if (!selectedSize) {
       toast({
         title: 'Please select a size',
@@ -34,7 +33,7 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
       title: 'Added to cart',
       description: `${product.name} (${selectedSize})`,
     });
-    setSelectedSize(null);
+    // setSelectedSize(null);
   };
 
   return (
