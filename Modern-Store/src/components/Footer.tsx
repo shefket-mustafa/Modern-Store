@@ -25,7 +25,7 @@ export const Footer = () => {
             <li>
               <Link
                 to="/"
-                className="opacity-80 hover:opacity-100 hover:text-accent transition-all"
+                className="opacity-80 hover:opacity-100 hover:font-bold hover:text-accent transition-all"
               >
                 Home
               </Link>
@@ -33,7 +33,7 @@ export const Footer = () => {
             <li>
               <Link
                 to="/shop/men"
-                className="opacity-80 hover:opacity-100 hover:text-accent transition-all"
+                className="opacity-80 hover:opacity-100 hover:font-bold hover:text-accent transition-all"
               >
                 Men
               </Link>
@@ -41,7 +41,7 @@ export const Footer = () => {
             <li>
               <Link
                 to="/shop/women"
-                className="opacity-80 hover:opacity-100 hover:text-accent transition-all"
+                className="opacity-80 hover:opacity-100 hover:font-bold hover:text-accent transition-all"
               >
                 Women
               </Link>
@@ -49,7 +49,7 @@ export const Footer = () => {
             <li>
               <Link
                 to="/about"
-                className="opacity-80 hover:opacity-100 hover:text-accent transition-all"
+                className="opacity-80 hover:opacity-100 hover:font-bold hover:text-accent transition-all"
               >
                 About
               </Link>
@@ -64,25 +64,25 @@ export const Footer = () => {
             <li>
               <a
                 href="mailto:contact@modernstore.com"
-                className="opacity-80 hover:opacity-100 hover:text-accent transition-all block"
+                className="opacity-80 hover:opacity-100 hover:font-bold hover:text-accent transition-all block"
               >
-                contact@modernstore.com
+                shefket.must@gmail.com
               </a>
             </li>
             <li>
               <a
                 href="tel:+1234567890"
-                className="opacity-80 hover:opacity-100 hover:text-accent transition-all block"
+                className="opacity-80 hover:opacity-100 hover:font-bold hover:text-accent transition-all block"
               >
-                +1 (234) 567-890
+                +359 (894) 229-461
               </a>
             </li>
             <li>
               <a
-                href="https://github.com"
+                href="https://github.com/shefket-mustafa"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="opacity-80 hover:opacity-100 hover:text-accent transition-all block"
+                className="opacity-80 hover:opacity-100 hover:font-bold hover:text-accent transition-all block"
               >
                 GitHub Profile
               </a>
