@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { Github, Instagram, LinkedinIcon } from "lucide-react";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -95,31 +95,31 @@ export const Footer = () => {
           <h4 className="font-semibold mb-4 text-lg text-center">Social</h4>
           <div className="flex justify-center gap-4">
             <a
-              href="https://facebook.com"
+              href="https://github.com/shefket-mustafa"
               target="_blank"
               rel="noopener noreferrer"
-              className="opacity-80 hover:opacity-100 hover:text-accent transition-all"
+              className="opacity-80 hover:opacity-100 hover:scale-125 hover:text-accent transition-all"
               aria-label="Facebook"
             >
-              <Facebook className="h-6 w-6" />
+              <Github className="h-6 w-6" />
             </a>
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/shefket_sum/"
               target="_blank"
               rel="noopener noreferrer"
-              className="opacity-80 hover:opacity-100 hover:text-accent transition-all"
+              className="opacity-80 hover:opacity-100 hover:scale-125 hover:text-accent transition-all"
               aria-label="Instagram"
             >
               <Instagram className="h-6 w-6" />
             </a>
             <a
-              href="https://twitter.com"
+              href="https://www.linkedin.com/in/shefket-mustafa-81356a360/"
               target="_blank"
               rel="noopener noreferrer"
-              className="opacity-80 hover:opacity-100 hover:text-accent transition-all"
+              className="opacity-80 hover:opacity-100 hover:scale-125 hover:text-accent transition-all"
               aria-label="Twitter"
             >
-              <Twitter className="h-6 w-6" />
+              <LinkedinIcon className="h-6 w-6" />
             </a>
           </div>
         </div>
