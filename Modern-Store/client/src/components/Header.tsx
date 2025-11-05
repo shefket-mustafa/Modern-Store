@@ -10,7 +10,7 @@ export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
   const logoutHandler = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    setUser(null)
+    setUser(null);
     navigate("/");
   };
   return (
@@ -48,12 +48,14 @@ export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
         </nav>
 
         <div>
-          <Link
-            to="/auth/login"
-            className="mr-4 hover:text-accent hover:underline hover:shadow-lg transition font-medium"
-          >
-            Login
-          </Link>
+          {!user && (
+            <Link
+              to="/auth/login"
+              className="mr-4 hover:text-accent hover:underline hover:shadow-lg transition font-medium"
+            >
+              Login
+            </Link>
+          )}
 
           {user && (
             <button
