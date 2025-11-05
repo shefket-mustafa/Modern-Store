@@ -1,13 +1,17 @@
 import { ShoppingCart } from 'lucide-react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { Button } from './ui/button';
+import type { HeaderProps } from '../../../Types';
 
-interface HeaderProps {
-  cartItemsCount: number;
-  onCartClick: () => void;
-}
+
 
 export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
+  const navigate = useNavigate();
+  const logoutHandler = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    navigate("/")
+  }
   return (
     <header className="border-b sticky top-0 bg-background z-50 shadow-sm backdrop-blur-md bg-white/75">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -30,6 +34,17 @@ export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
           </Link>
         </nav>
 
+        <div>
+
+          <Link to="/auth/login" className="mr-4 hover:text-accent hover:underline hover:shadow-lg transition font-medium">
+          Login
+          </Link>
+
+          <button onClick={logoutHandler} className="mr-4 hover:text-accent hover:underline hover:shadow-lg transition font-medium">
+          Logout
+          </button>
+
+        
         <Button
           variant="ghost" 
           size="icon" 
@@ -43,6 +58,8 @@ export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
             </span>
           )}
         </Button>
+
+        </div>
       </div>
     </header>
   );
