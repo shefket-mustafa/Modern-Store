@@ -30,6 +30,17 @@ export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
           </Link>
         </nav>
 
+        <div>
+
+          <Link to="/auth/login" className="mr-4 hover:text-accent hover:underline hover:shadow-lg transition font-medium">
+          Login
+          </Link>
+
+          <Link to="/login" className="mr-4 hover:text-accent hover:underline hover:shadow-lg transition font-medium">
+          Logout
+          </Link>
+
+        
         <Button
           variant="ghost" 
           size="icon" 
@@ -43,6 +54,8 @@ export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
             </span>
           )}
         </Button>
+
+        </div>
       </div>
     </header>
   );

@@ -16,6 +16,7 @@ import { Footer } from "./components/Footer";
 import { Cart } from "./components/Cart";
 import ScrollOnTop from "./helpers/ScrollOnTop";
 import { ShopProvider } from "./context/ShopContext";
+import Login from "./pages/Login";
 
 const queryClient = new QueryClient();
 
@@ -79,6 +80,7 @@ const App = () => {
                <Route path="/shop/:category" element={<Shop onAddToCart={handleAddToCart} />} />
               <Route path="/about" element={<About />} />
               <Route path="/product/:id" element={<ProductDetail onAddToCart={handleAddToCart} />} />
+              <Route path="/auth/login" element={<Login />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />
