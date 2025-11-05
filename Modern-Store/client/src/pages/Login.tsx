@@ -50,7 +50,7 @@ export default function Login() {
 
         <p className="text-center text-sm text-gray-500 mt-6">
           Don’t have an account?{" "}
-          <a href="/register" className="text-orange-500 hover:underline">
+          <a href="/auth/register" className="text-orange-500 hover:underline">
             Sign Up
           </a>
         </p>
