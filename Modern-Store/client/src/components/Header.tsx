@@ -1,7 +1,7 @@
 import { ShoppingCart } from 'lucide-react';
 import { Link, useNavigate } from 'react-router';
 import { Button } from './ui/button';
-import type { HeaderProps } from '../../../Types';
+import type { HeaderProps } from '../../Types';
 
 
 
