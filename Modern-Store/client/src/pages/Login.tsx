@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
 import { loginSchema, type LoginSchemaType } from "../lib/zod/loginSchema";
 import {zodResolver} from "@hookform/resolvers/zod"
+import { useNavigate } from "react-router";
 export default function Login() {
 
   const BASE_URL = import.meta.env.VITE_BASE_URL
+  const navigate = useNavigate();
     const 
     {handleSubmit,
       register,
@@ -28,6 +30,7 @@ export default function Login() {
 
         localStorage.setItem("token", result.token);
         localStorage.setItem("user", JSON.stringify(result.user))
+        navigate("/")
       }catch(err){ 
         if(err instanceof Error){
         setError("root", {message: err.message})// checking whether the caught value is a real Error object, not just some random value (like a string, number, or object).

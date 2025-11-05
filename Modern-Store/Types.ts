@@ -3,3 +3,7 @@ export type UserType = {
     email: string;
     password: string
 }
+export interface HeaderProps {
+  cartItemsCount: number;
+  onCartClick: () => void;
+}
