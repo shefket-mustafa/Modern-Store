@@ -18,6 +18,7 @@ import ScrollOnTop from "./helpers/ScrollOnTop";
 import { ShopProvider } from "./context/ShopContext";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import {  UserProvider } from './lib/context/UserContext';
 
 const queryClient = new QueryClient();
 
@@ -66,6 +67,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
+        <UserProvider >
         <ShopProvider>
         <ScrollOnTop />
         <Toaster />
@@ -95,6 +97,7 @@ const App = () => {
             />
           </div>
           </ShopProvider>
+          </UserProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );
