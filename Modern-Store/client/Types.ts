@@ -1,3 +1,5 @@
+
+
 export type UserType = {
     username: string;
     email: string;
@@ -6,4 +8,9 @@ export type UserType = {
 export interface HeaderProps {
   cartItemsCount: number;
   onCartClick: () => void;
+}
+
+export type UserContextType = {
+    user: UserType | null,
+    setUser: React.Dispatch<React.SetStateAction<UserType | null>>
 }

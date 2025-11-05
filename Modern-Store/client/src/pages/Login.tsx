@@ -2,9 +2,11 @@ import { useForm } from "react-hook-form";
 import { loginSchema, type LoginSchemaType } from "../lib/zod/loginSchema";
 import {zodResolver} from "@hookform/resolvers/zod"
 import { useNavigate } from "react-router";
+import { useUser } from "../hooks/useUser";
 export default function Login() {
 
   const BASE_URL = import.meta.env.VITE_BASE_URL
+  const {setUser} = useUser();
   const navigate = useNavigate();
     const 
     {handleSubmit,
@@ -23,6 +25,7 @@ export default function Login() {
         })
 
         const result = await res.json();
+      
 
         if(!res.ok){
           setError("root", {message: "Invalid Credentials!"})
@@ -30,6 +33,7 @@ export default function Login() {
 
         localStorage.setItem("token", result.token);
         localStorage.setItem("user", JSON.stringify(result.user))
+        setUser(result.user)
         navigate("/")
       }catch(err){ 
         if(err instanceof Error){
