@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.use("/auth", authRouter)
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const MONGO_URI = process.env.MONGO_URI;
 
 app.get('/', (req: express.Request, res: express.Response) => {
