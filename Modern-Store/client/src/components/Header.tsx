@@ -1,7 +1,7 @@
 import { ShoppingCart } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { Button } from "./ui/button";
-import type { HeaderProps } from "../../Types";
+import type { HeaderProps } from "../../types";
 import { useUser } from "../hooks/useUser";
 
 export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
@@ -13,6 +13,9 @@ export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
     setUser(null);
     navigate("/");
   };
+
+  console.log(user);
+  
   return (
     <header className="border-b sticky top-0 bg-background z-50 shadow-sm backdrop-blur-md bg-white/75">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -57,10 +60,19 @@ export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
             </Link>
           )}
 
+          {user?.role === 'admin' && (
+            <Link
+              to="/admin"
+              className="mr-4 hover:text-accent hover:underline hover:shadow-lg transition font-medium"
+            >
+              Admin
+            </Link>
+          )}
+
           {user && (
             <button
               onClick={logoutHandler}
-              className="mr-4 hover:text-accent hover:underline hover:shadow-lg transition font-medium"
+              className="mr-4 hover:text-accent cursor-pointer hover:underline hover:shadow-lg transition font-medium"
             >
               Logout
             </button>

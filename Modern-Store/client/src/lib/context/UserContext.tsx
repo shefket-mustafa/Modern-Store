@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import type { UserContextType, UserType } from "../../../Types";
+import type { UserContextType, UserType } from "../../../types";
 
 
 export const UserContext = createContext<UserContextType | undefined>(undefined);
