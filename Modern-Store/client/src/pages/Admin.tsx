@@ -1,6 +1,7 @@
-    import { motion } from "framer-motion";
+    import {  motion } from "framer-motion";
     import { useState } from "react";
     import { mockProducts } from "../data/mockProducts";
+import AddItemModal from "../modals/admin/AddItemModal";
 
     export default function Admin(){
 
@@ -11,6 +12,7 @@
                 ]
 
                 const [activityTab, setActivityTab] =  useState<"Items" | "Users">("Users")
+                const [addItemModalOpen, setAddItemModalOpen] = useState(false);
 
         return(
             <div className="min-h-screen bg-gray-50 p-8">
@@ -76,7 +78,9 @@
                     <th className="py-2 px-4 rounded-tl-lg">#</th>
                     <th className="py-2 px-4">Name</th>
                     <th className="py-2 px-4">Price</th>
-                    <th className="py-2 px-4 rounded-tr-lg">In Stock </th>
+                    <th className="py-2 px-4  w-2">In Stock </th>
+                    <th onClick={() => setAddItemModalOpen(true)} className="py-2 px-4 text-lg rounded-tr-lg w-2 cursor-pointer hover:text-black active:bg-orange-600 transition"
+                    >+</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -101,6 +105,9 @@
             )}
             </div>
         </motion.div>
+
+        <AddItemModal addItemModalOpen={addItemModalOpen} setAddItemModalOpen={setAddItemModalOpen} />
+       
         </div>
     );
         
