@@ -18,7 +18,6 @@ import ScrollOnTop from "./helpers/ScrollOnTop";
 import { ShopProvider } from "./context/ShopContext";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import {  UserProvider } from './lib/context/UserContext';
 import Admin from "./pages/Admin";
 import { useUser } from "./hooks/useUser";
 
