@@ -19,12 +19,15 @@ import { ShopProvider } from "./context/ShopContext";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import {  UserProvider } from './lib/context/UserContext';
+import Admin from "./pages/Admin";
+import { useUser } from "./hooks/useUser";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const {user} = useUser();
 
   const handleAddToCart = (productId: string, size: Size, quantity: number) => {
     const product = mockProducts.find((p) => p.id === productId);
@@ -67,7 +70,6 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <UserProvider >
         <ShopProvider>
         <ScrollOnTop />
         <Toaster />
@@ -85,6 +87,9 @@ const App = () => {
               <Route path="/product/:id" element={<ProductDetail onAddToCart={handleAddToCart} />} />
               <Route path="/auth/login" element={<Login />} />
               <Route path="/auth/register" element={<Register />} />
+              {user?.role === 'admin' && (
+                <Route path="/admin" element={<Admin />} />
+              )}
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />
@@ -97,7 +102,6 @@ const App = () => {
             />
           </div>
           </ShopProvider>
-          </UserProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );
