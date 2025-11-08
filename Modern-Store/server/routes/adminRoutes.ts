@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { adminMiddleware } from "../middleware/adminMiddleware";
 import { AdminItemModel } from "../models/AdminItem"
 import { authMiddleware } from "../middleware/authMiddleware";
+import { UserModel } from "../models/User";
 
 
 export const adminRoutes = Router();
@@ -45,6 +46,22 @@ adminRoutes.delete("/delete-item/:id", authMiddleware, adminMiddleware, async(re
     }catch(error){
         res.status(500).json({message: "Server error"})
     }
+})
+
+adminRoutes.delete("/delete-user/:id", authMiddleware, adminMiddleware, async(req: Request, res: Response) => {
+    try{
+        const userId = req.params.id;
+
+        const deletedUser = await UserModel.findByIdAndDelete(userId);
+
+        if(!deletedUser){
+            return res.status(404).json({message: "User not found"});
+        }
+
+        res.json({message: "User deleted successfully", user: deletedUser});
+    }catch(error){
+        res.status(500).json({message: "Server error"})
+    }   
 })
 
 adminRoutes.get("/items", authMiddleware, adminMiddleware, async(req: Request, res: Response) => {

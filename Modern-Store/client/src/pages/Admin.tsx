@@ -142,7 +142,7 @@ import AddItemModal from "../modals/admin/AddItemModal";
                         <td className="py-2 px-4 font-medium">{u.username}</td>
                         <td className="py-2 px-4">{u.email}</td>
                         <td className="py-2 px-4">
-                        <button className="text-red-500 hover:underline">
+                        <button className="text-red-500 hover:underline cursor-pointer">
                             Delete
                         </button>
                         </td>
@@ -182,7 +182,7 @@ import AddItemModal from "../modals/admin/AddItemModal";
                         <td className="py-2 px-4">{u.price}</td>
                         <td className="py-2 px-4">{u.stockQuantity}</td>
                         <td className="py-2 px-4">
-                        <button onClick={() => deleteHandler(u._id)} className="text-red-500 hover:underline">
+                        <button onClick={() => deleteHandler(u._id)} className="text-red-500 cursor-pointer hover:underline">
                             Delete
                         </button>
                         </td>
