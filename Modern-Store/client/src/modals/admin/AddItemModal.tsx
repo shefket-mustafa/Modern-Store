@@ -3,9 +3,11 @@ import { useForm } from "react-hook-form";
 import { adminAddItemSchema, type AdminAddItemSchemaType } from "../../lib/zod/adminAddItemSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+
 export default function AddItemModal({addItemModalOpen,setAddItemModalOpen}: {addItemModalOpen: boolean, setAddItemModalOpen: React.Dispatch<React.SetStateAction<boolean>>}) {
     const BASE_URL = import.meta.env.VITE_BASE_URL;
     const token = localStorage.getItem('token');
+   
     const {
         register,
         handleSubmit,

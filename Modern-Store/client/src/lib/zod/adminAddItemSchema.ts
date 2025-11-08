@@ -28,7 +28,7 @@ export const adminAddItemSchema = z.object({
             return Number.isFinite(parsed) ? parsed : val;
         }
         return val;
-    }, z.number().min(0, "In Stock must be at least 0")),
+    }, z.number().min(1, "In Stock must be at least 1")),
 })
 
 export type AdminAddItemSchemaType = z.infer<typeof adminAddItemSchema>;

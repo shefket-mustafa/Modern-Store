@@ -1,5 +1,4 @@
-
-
+ 
 export type UserType = {
   _id: string
     username: string;
@@ -18,3 +17,14 @@ export type UserContextType = {
     setUser: React.Dispatch<React.SetStateAction<UserType | null>>
 }
 
+export type AdminItemType = {
+    _id: string;
+    name: string;
+    price: number;
+    category: string;
+    subcategory: string;
+    imageUrl: string;
+    description: string;
+    sizes: string[];
+    stockQuantity: number;
+}

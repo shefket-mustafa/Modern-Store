@@ -30,4 +30,16 @@ adminRoutes.post("/add-item", authMiddleware, adminMiddleware,  async(req: Reque
     }
 })
 
+adminRoutes.get("/items", authMiddleware, adminMiddleware, async(req: Request, res: Response) => {
+
+    try{
+
+        const items = await AdminItemModel.find().lean();
+        res.json({items});
+
+    }catch(error){
+        res.status(500).json({message: "Server error"})
+    }   
+})
+
 

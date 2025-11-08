@@ -1,9 +1,40 @@
     import {  motion } from "framer-motion";
-    import { useState } from "react";
-    import { mockProducts } from "../data/mockProducts";
+    import { useEffect, useState } from "react";
+import type { AdminItemType } from "../../types";
 import AddItemModal from "../modals/admin/AddItemModal";
 
     export default function Admin(){
+        const BASE_URL = import.meta.env.VITE_BASE_URL;
+         const [allItems, setAllItems] = useState<AdminItemType[]>([]);
+          const token = localStorage.getItem('token');
+        
+            useEffect(() => {
+               
+        
+                    const fetchAllItems = async () => {
+        
+                        
+                         try{
+                        if (!token) {
+                            throw new Error('No token found');
+                        }
+                        
+                        const res = await fetch(`${BASE_URL}/admin/items`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            "Authorization": `Bearer ${token}`
+                        }})
+                        const data = await res.json();
+                        const items = data?.items ?? [];
+                        setAllItems(items);
+                    }catch(err){
+                        throw new Error('Authentication token not found. Please log in again.');
+                    }
+
+                    }
+                        fetchAllItems()
+            },[])
 
         const users = [
             { id: '1', username: 'john_doe', email: 'john_doe@abv.bg'},
@@ -13,6 +44,8 @@ import AddItemModal from "../modals/admin/AddItemModal";
 
                 const [activityTab, setActivityTab] =  useState<"Items" | "Users">("Users")
                 const [addItemModalOpen, setAddItemModalOpen] = useState(false);
+                console.log(allItems);
+                
 
         return(
             <div className="min-h-screen bg-gray-50 p-8">
@@ -68,7 +101,7 @@ import AddItemModal from "../modals/admin/AddItemModal";
 
 
             <div className={`${activityTab === "Items" ? "block" : "hidden" }`}>
-                {mockProducts.length === 0 ? (
+                {allItems.length === 0 ? (
             <p className="text-gray-400">No items found.</p>
             ) : (
             <div className="overflow-x-auto overflow-y-auto max-h-96">
@@ -84,14 +117,15 @@ import AddItemModal from "../modals/admin/AddItemModal";
                     </tr>
                 </thead>
                 <tbody>
-                    {mockProducts.map((u, i) => (
+                    {allItems.map((u, i) => (
                     <tr
-                        key={u.id}
+                        key={u._id}
                         className="odd:bg-gray-50 even:bg-white border-b hover:bg-orange-50 transition"
                     >
                         <td className="py-2 px-4">{i + 1}</td>
                         <td className="py-2 px-4 font-medium">{u.name}</td>
                         <td className="py-2 px-4">{u.price}</td>
+                        <td className="py-2 px-4">{u.stockQuantity}</td>
                         <td className="py-2 px-4">
                         <button className="text-red-500 hover:underline">
                             Delete
