@@ -4,7 +4,8 @@ import { adminAddItemSchema, type AdminAddItemSchemaType } from "../../lib/zod/a
 import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function AddItemModal({addItemModalOpen,setAddItemModalOpen}: {addItemModalOpen: boolean, setAddItemModalOpen: React.Dispatch<React.SetStateAction<boolean>>}) {
-
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
+    const token = localStorage.getItem('token');
     const {
         register,
         handleSubmit,
@@ -15,10 +16,11 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen}: {ad
 
     const handleAddItem = async (data: AdminAddItemSchemaType) => {
         try {
-            const response = await fetch('/api/admin/add-item', {
+            const response = await fetch(`${BASE_URL}/admin/add-item`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    "Authorization":  `Bearer ${token}`
                 },
                 body: JSON.stringify(data),
             });
@@ -73,30 +75,46 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen}: {ad
                   className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none"
                 {...register("name")}
                 />
+                {errors.name && (
+                    <p className="text-red-500 text-sm">{errors.name.message}</p>
+                )}
                 <input
-                  type="number"
+                  type="text"
+                  inputMode="decimal"
                   placeholder="Price"
                   className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none"
                 {...register("price")}
                 />
+                {errors.price && (
+                    <p className="text-red-500 text-sm">{errors.price.message}</p>
+                )}
                 <input
                   type="text"
                   placeholder="Category"
                   className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none"
                 {...register("category")}
                 />
+                {errors.category && (
+                    <p className="text-red-500 text-sm">{errors.category.message}</p>
+                )}
                 <input
                   type="text"
                   placeholder="Subcategory"
                   className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none"
                 {...register("subcategory")}
                 />
+                {errors.subcategory && (
+                    <p className="text-red-500 text-sm">{errors.subcategory.message}</p>
+                )}
                 <input
                   type="text"
                   placeholder="Image URL"
                   className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none"
                 {...register("imageUrl")}
                 />
+                {errors.imageUrl && (
+                    <p className="text-red-500 text-sm">{errors.imageUrl.message}</p>
+                )  }
                 <input
                   type="text"
                   placeholder="Description"
@@ -113,8 +131,11 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen}: {ad
                   type="number"
                   placeholder="Stock quantity"
                   className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none"
-                {...register("stockQuantity")}
+                {...register("stockQuantity", { valueAsNumber: true })}
                 />
+                {errors.stockQuantity && (
+                    <p className="text-red-500 text-sm">{errors.stockQuantity.message}</p>
+                )  }
                 <div className="flex justify-end gap-3 mt-4">
                   <button
                     type="button"
