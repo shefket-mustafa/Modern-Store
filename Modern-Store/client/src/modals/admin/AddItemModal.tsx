@@ -4,7 +4,7 @@ import { adminAddItemSchema, type AdminAddItemSchemaType } from "../../lib/zod/a
 import { zodResolver } from "@hookform/resolvers/zod";
 
 
-export default function AddItemModal({addItemModalOpen,setAddItemModalOpen}: {addItemModalOpen: boolean, setAddItemModalOpen: React.Dispatch<React.SetStateAction<boolean>>}) {
+export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setFetchAgain}: {addItemModalOpen: boolean, setAddItemModalOpen: React.Dispatch<React.SetStateAction<boolean>>, setFetchAgain: React.Dispatch<React.SetStateAction<boolean>>}) {
     const BASE_URL = import.meta.env.VITE_BASE_URL;
     const token = localStorage.getItem('token');
    
@@ -32,6 +32,7 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen}: {ad
                 throw new Error(errorData.message || 'Failed to add item');
             }
 
+            setFetchAgain(true);
             // Close the modal on success
             setAddItemModalOpen(false);
         } catch (error: any) {

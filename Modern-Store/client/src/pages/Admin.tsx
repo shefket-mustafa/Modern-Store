@@ -7,6 +7,8 @@ import AddItemModal from "../modals/admin/AddItemModal";
         const BASE_URL = import.meta.env.VITE_BASE_URL;
          const [allItems, setAllItems] = useState<AdminItemType[]>([]);
           const token = localStorage.getItem('token');
+    const [fetchAgain, setFetchAgain] = useState(false);
+
         
             useEffect(() => {
                
@@ -35,6 +37,59 @@ import AddItemModal from "../modals/admin/AddItemModal";
                     }
                         fetchAllItems()
             },[])
+
+            useEffect(() => {
+                if(fetchAgain){
+                    const fetchAllItems = async () => {
+        
+                        
+                         try{
+                        if (!token) {
+                            throw new Error('No token found');
+                        }
+                        
+                        const res = await fetch(`${BASE_URL}/admin/items`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            "Authorization": `Bearer ${token}`
+                        }})
+                        const data = await res.json();
+                        const items = data?.items ?? [];
+                        setAllItems(items);
+                        setFetchAgain(false);
+                    }catch(err){
+                        throw new Error('Authentication token not found. Please log in again.');
+                    }
+
+                    }
+                        fetchAllItems()
+                }
+            },[fetchAgain]) 
+                    
+            const deleteHandler = async (id: string) => {
+               try{
+                const response = await fetch(`${BASE_URL}/admin/delete-item/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: token ? `Bearer ${token}` : ''
+                    }
+                });
+
+                if (!response.ok) {
+                  const text = await response.text();
+                  throw new Error(text || 'Failed to delete item.');
+                }
+
+                setAllItems((prev) => prev.filter((item) => item._id !== id));
+               }catch(err){
+                // surface a friendly error in console and optionally UI
+                console.error(err);
+                throw new Error('Failed to delete item. Please try again.');
+               }
+            }
+        
 
         const users = [
             { id: '1', username: 'john_doe', email: 'john_doe@abv.bg'},
@@ -127,7 +182,7 @@ import AddItemModal from "../modals/admin/AddItemModal";
                         <td className="py-2 px-4">{u.price}</td>
                         <td className="py-2 px-4">{u.stockQuantity}</td>
                         <td className="py-2 px-4">
-                        <button className="text-red-500 hover:underline">
+                        <button onClick={() => deleteHandler(u._id)} className="text-red-500 hover:underline">
                             Delete
                         </button>
                         </td>
@@ -140,7 +195,7 @@ import AddItemModal from "../modals/admin/AddItemModal";
             </div>
         </motion.div>
 
-        <AddItemModal addItemModalOpen={addItemModalOpen} setAddItemModalOpen={setAddItemModalOpen} />
+        <AddItemModal addItemModalOpen={addItemModalOpen} setAddItemModalOpen={setAddItemModalOpen} setFetchAgain={setFetchAgain}/>
        
         </div>
     );

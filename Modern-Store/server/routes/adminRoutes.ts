@@ -30,6 +30,23 @@ adminRoutes.post("/add-item", authMiddleware, adminMiddleware,  async(req: Reque
     }
 })
 
+adminRoutes.delete("/delete-item/:id", authMiddleware, adminMiddleware, async(req: Request, res: Response) => {
+    
+    try{
+        const itemId = req.params.id;
+
+        const deletedItem = await AdminItemModel.findByIdAndDelete(itemId);
+
+        if(!deletedItem){
+            return res.status(404).json({message: "Item not found"});
+        }
+
+        res.json({message: "Item deleted successfully", item: deletedItem});
+    }catch(error){
+        res.status(500).json({message: "Server error"})
+    }
+})
+
 adminRoutes.get("/items", authMiddleware, adminMiddleware, async(req: Request, res: Response) => {
 
     try{
