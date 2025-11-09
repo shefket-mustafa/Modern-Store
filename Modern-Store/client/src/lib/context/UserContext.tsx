@@ -10,8 +10,18 @@ export const UserProvider = ({ children }: {children: React.ReactNode}) => {
 
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
-        if(storedUser){
-            setUser(JSON.parse(storedUser))
+        if (storedUser && storedUser !== 'undefined' && storedUser !== 'null') {
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch (err) {
+                // corrupted or invalid JSON in localStorage — clearing it and keep user as null
+                console.warn('UserProvider: failed to parse stored user, clearing localStorage.user', err);
+                localStorage.removeItem('user');
+                setUser(null);
+            }
+        } else {
+            // ensure we don't keep invalid literal strings
+            if (storedUser === 'undefined' || storedUser === 'null') localStorage.removeItem('user');
         }
     },[])
 
