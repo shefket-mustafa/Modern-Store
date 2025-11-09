@@ -22,10 +22,11 @@ authRouter.post("/login", async (  req: Request, res: Response) => {
     if(!validPassword){
         return res.status(400).json({message: "Invalid credentials!"})
     }
-    const {_id, username} = user;
+    const {_id, username, role} = user;
 
-    const token = jwt.sign({id: user._id}, process.env.JWT_SECRET as string, {expiresIn: '1h'});
-    res.json({token, user: {id: _id, username: username}});
+    
+    const token = jwt.sign({id: user._id, role: role}, process.env.JWT_SECRET as string, {expiresIn: '1h'});
+    res.json({token, user: {id: _id, username: username, role}});
       }catch(error){
         res.status(500).json({message: "Server error"})
       }
@@ -43,9 +44,12 @@ authRouter.post("/register", async(req: Request, res: Response) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new UserModel({username, email, password: hashedPassword});
+    const newUser = new UserModel({username, email, password: hashedPassword});
         await newUser.save();
-        res.status(201).json({message: "User registered successfully!"})
+    
+    const { _id, username: createdUsername, role } = newUser as any;
+    const token = jwt.sign({ id: _id, role }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+    res.status(201).json({ message: "User registered successfully!", token, user: { id: _id, username: createdUsername, role } })
 
     }catch(error){
         res.status(500).json({message: "Server error"})
