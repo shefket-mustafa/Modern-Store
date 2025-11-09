@@ -64,6 +64,17 @@ adminRoutes.delete("/delete-user/:id", authMiddleware, adminMiddleware, async(re
     }   
 })
 
+adminRoutes.get("/users", authMiddleware, adminMiddleware, async(req: Request, res: Response) => {
+
+    try{
+
+        const users = await UserModel.find().lean();
+        res.json({users});
+
+    }catch(error){
+        res.status(500).json({message: "Server error"})
+    }})
+
 adminRoutes.get("/items", authMiddleware, adminMiddleware, async(req: Request, res: Response) => {
 
     try{
@@ -75,5 +86,4 @@ adminRoutes.get("/items", authMiddleware, adminMiddleware, async(req: Request, r
         res.status(500).json({message: "Server error"})
     }   
 })
-
 

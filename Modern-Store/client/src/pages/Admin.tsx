@@ -1,11 +1,12 @@
     import {  motion } from "framer-motion";
     import { useEffect, useState } from "react";
-import type { AdminItemType } from "../../types";
+import type { AdminItemType, allUsersType } from "../../types";
 import AddItemModal from "../modals/admin/AddItemModal";
 
     export default function Admin(){
         const BASE_URL = import.meta.env.VITE_BASE_URL;
          const [allItems, setAllItems] = useState<AdminItemType[]>([]);
+         const [allUsers, setAllUsers] = useState<allUsersType[]>([]);
           const token = localStorage.getItem('token');
     const [fetchAgain, setFetchAgain] = useState(false);
 
@@ -67,7 +68,7 @@ import AddItemModal from "../modals/admin/AddItemModal";
                 }
             },[fetchAgain]) 
                     
-            const deleteHandler = async (id: string) => {
+            const deleteItemsHandler = async (id: string) => {
                try{
                 const response = await fetch(`${BASE_URL}/admin/delete-item/${id}`, {
                     method: 'DELETE',
@@ -82,20 +83,62 @@ import AddItemModal from "../modals/admin/AddItemModal";
                   throw new Error(text || 'Failed to delete item.');
                 }
 
-                setAllItems((prev) => prev.filter((item) => item._id !== id));
+                setAllUsers((prev) => prev.filter((user) => user._id !== id));
                }catch(err){
                 // surface a friendly error in console and optionally UI
                 console.error(err);
                 throw new Error('Failed to delete item. Please try again.');
                }
             }
-        
 
-        const users = [
-            { id: '1', username: 'john_doe', email: 'john_doe@abv.bg'},
-            { id: '2', username: 'jane_smith', email: 'johna_doe@abv.bg'},
-            { id: '3', username: 'mane_smith', email: 'jmane_doe@abv.bg'}
-                ]
+              const deleteUsersHandler = async (id: string) => {
+               try{
+                const response = await fetch(`${BASE_URL}/admin/delete-user/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: token ? `Bearer ${token}` : ''
+                    }
+                });
+
+                if (!response.ok) {
+                  const text = await response.text();
+                  throw new Error(text || 'Failed to delete user.');
+                }
+                console.log(response);
+                
+                // setAllUsers((prev) => prev.filter((users) => users. !== id));
+               }catch(err){
+                // surface a friendly error in console and optionally UI
+                console.error(err);
+                throw new Error('Failed to delete item. Please try again.');
+               }
+            }
+
+            useEffect(() => {
+
+                const fetchAllUsers = async () => {
+                    try{
+                        if (!token) {
+                            throw new Error('No token found');
+                        }
+                        
+                        const res = await fetch(`${BASE_URL}/admin/users`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            "Authorization": `Bearer ${token}`
+                        }})
+                        const data = await res.json();
+                        const users = data?.users ?? [];
+                        setAllUsers(users);
+                    }catch(err){
+                        throw new Error('Authentication token not found. Please log in again.');
+                    }
+                }
+                fetchAllUsers();
+            },[])
+        
 
                 const [activityTab, setActivityTab] =  useState<"Items" | "Users">("Users")
                 const [addItemModalOpen, setAddItemModalOpen] = useState(false);
@@ -119,7 +162,7 @@ import AddItemModal from "../modals/admin/AddItemModal";
 
             {/* // Users Section */}
             <div className={`${activityTab === "Users" ? "block" : "hidden" }`}>
-            {users.length === 0 ? (
+            {allUsers.length === 0 ? (
             <p className="text-gray-400">No users found.</p>
             ) : (
             <div className="overflow-x-auto">
@@ -133,16 +176,16 @@ import AddItemModal from "../modals/admin/AddItemModal";
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((u, i) => (
+                    {allUsers.map((u, i) => (
                     <tr
-                        key={u.id}
+                        key={u._id}
                         className="odd:bg-gray-50 even:bg-white border-b hover:bg-orange-50 transition"
                     >
                         <td className="py-2 px-4">{i + 1}</td>
                         <td className="py-2 px-4 font-medium">{u.username}</td>
                         <td className="py-2 px-4">{u.email}</td>
                         <td className="py-2 px-4">
-                        <button className="text-red-500 hover:underline cursor-pointer">
+                        <button onClick={() => deleteUsersHandler(u._id)} className="text-red-500 hover:underline cursor-pointer">
                             Delete
                         </button>
                         </td>
@@ -182,7 +225,7 @@ import AddItemModal from "../modals/admin/AddItemModal";
                         <td className="py-2 px-4">{u.price}</td>
                         <td className="py-2 px-4">{u.stockQuantity}</td>
                         <td className="py-2 px-4">
-                        <button onClick={() => deleteHandler(u._id)} className="text-red-500 cursor-pointer hover:underline">
+                        <button onClick={() => deleteItemsHandler(u._id)} className="text-red-500 cursor-pointer hover:underline">
                             Delete
                         </button>
                         </td>

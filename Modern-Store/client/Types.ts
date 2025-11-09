@@ -28,3 +28,9 @@ export type AdminItemType = {
     sizes: string[];
     stockQuantity: number;
 }
+
+export type allUsersType = {
+  _id: string;
+  username: string;
+  email: string;
+}
