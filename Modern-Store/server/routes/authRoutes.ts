@@ -25,7 +25,7 @@ authRouter.post("/login", async (  req: Request, res: Response) => {
     const {_id, username, role} = user;
 
     
-    const token = jwt.sign({id: user._id, role: role}, process.env.JWT_SECRET as string, {expiresIn: '1h'});
+    const token = jwt.sign({id: user._id, role: role}, process.env.JWT_SECRET as string, {expiresIn: '1d'});
     res.json({token, user: {id: _id, username: username, role}});
       }catch(error){
         res.status(500).json({message: "Server error"})
@@ -48,7 +48,7 @@ authRouter.post("/register", async(req: Request, res: Response) => {
         await newUser.save();
     
     const { _id, username: createdUsername, role } = newUser as any;
-    const token = jwt.sign({ id: _id, role }, process.env.JWT_SECRET as string, { expiresIn: '1h' });
+    const token = jwt.sign({ id: _id, role }, process.env.JWT_SECRET as string, { expiresIn: '1d' });
     res.status(201).json({ message: "User registered successfully!", token, user: { id: _id, username: createdUsername, role } })
 
     }catch(error){
