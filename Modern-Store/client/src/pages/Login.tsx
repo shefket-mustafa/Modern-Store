@@ -26,9 +26,9 @@ export default function Login() {
 
         const result = await res.json();
       
-
         if(!res.ok){
           setError("root", {message: "Invalid Credentials!"})
+          return
         }
 
         localStorage.setItem("token", result.token);
