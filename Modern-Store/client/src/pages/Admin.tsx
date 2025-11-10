@@ -107,7 +107,7 @@ import AddItemModal from "../modals/admin/AddItemModal";
                 }
                 console.log(response);
                 
-                // setAllUsers((prev) => prev.filter((users) => users. !== id));
+                setAllUsers((prev) => prev.filter((users) => users._id !== id));
                }catch(err){
                 // surface a friendly error in console and optionally UI
                 console.error(err);
