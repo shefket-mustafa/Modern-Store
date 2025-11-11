@@ -9,7 +9,7 @@ export interface Product {
   price: number;
   category: Exclude<Category, 'all'>; // only 'men' | 'women'
   subcategory: Subcategory;
-  image: string;
+  imageUrl: string;
   description: string;
   sizes: Size[];
   inStock: boolean;
