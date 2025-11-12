@@ -3,13 +3,40 @@ import { Link} from "react-router"
 import { mockProducts } from '../data/mockProducts';
 import { Button } from '../components/ui/button';
 import { ProductCard } from '../components/ProductCard';
+import { useEffect, useState } from 'react';
+import type { Product } from '../types';
 
 interface LandingProps {
   onAddToCart: (productId: string, size: any, quantity: number) => void;
 }
 
+
+
 export const Landing = ({ onAddToCart }: LandingProps) => {
-  const featuredProducts = mockProducts.slice(0, 4);
+  const [featuredCollection, setFeaturedCollection] = useState<Product[]>([]);
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+  useEffect(() => {
+
+    const featuredCollection = async() => {
+  try{
+
+      const response = await fetch(`${BASE_URL}/items`, {
+        method: "GET",
+        headers: {"Content-Type":"application/json"}
+      });
+      if(!response.ok) throw new Error("Failed to fetch featured collection!")
+      const data = await response.json();
+      const last4 = data.slice(0,4);
+      setFeaturedCollection(last4)
+    }catch(err){
+      console.error("Failed to show featured: ",err)
+    }
+  }
+  
+  featuredCollection()
+
+},[])
 
   return (
     <div className="min-h-screen">
@@ -95,7 +122,7 @@ export const Landing = ({ onAddToCart }: LandingProps) => {
             <p className="text-muted-foreground text-lg">Handpicked pieces from our latest arrivals</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product) => (
+            {featuredCollection.map((product) => (
               <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
             ))}
           </div>

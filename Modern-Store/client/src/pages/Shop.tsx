@@ -1,7 +1,6 @@
 import { CategoryFilter } from "../components/CategoryFilter";
 import { ProductCard } from "../components/ProductCard";
 import { filterProducts } from "../helpers/filterProducts";
-import { mockProducts } from "../data/mockProducts";
 import type { Product, ShopProps, ShopTitleTypes } from "../types";
 import { useShop } from "../context/ShopContext";
 import { useEffect, useMemo, useState } from "react";
