@@ -53,7 +53,11 @@ useEffect(() => {
           const data = await res.json();
         setProducts(data)
         
-      }catch(err){
+      }catch(err){ 
+         if (err instanceof DOMException && err.name === "AbortError") {
+    // Request was intentionally aborted — do nothing. The error in the console was bugging me
+    return;
+  }
 
         console.error("Error fetching data: ", err)
       }
