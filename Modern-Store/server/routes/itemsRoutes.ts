@@ -31,3 +31,19 @@ itemsRoutes.get("/", async(req: Request, res: Response) => {
     }
 })
 
+itemsRoutes.get("/:id", async(req: Request, res: Response) => {
+
+    try{
+        const {id} = req.params;
+
+        const response = await AdminItemModel.findById(id);
+
+        if(!response) return res.status(404).json({error: "Item details not found!"})
+
+            return res.json(response)
+
+    }catch(err){
+          return res.status(500).json({error: "Server error!"})
+    }
+})
+

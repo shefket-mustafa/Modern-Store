@@ -4,7 +4,7 @@ export type Subcategory = 't-shirts' | 'shirts' | 'jeans' | 'sweatshirts' | 'swe
 export type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
 export interface Product {
-  id: string;
+  _id: string;
   name: string;
   price: number;
   category: Exclude<Category, 'all'>; // only 'men' | 'women'
@@ -12,7 +12,7 @@ export interface Product {
   imageUrl: string;
   description: string;
   sizes: Size[];
-  inStock: boolean;
+  stockQuantity: number;
 }
 
 export interface CartItem {

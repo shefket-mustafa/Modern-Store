@@ -28,7 +28,7 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
       return;
     }
 
-    onAddToCart(product.id, selectedSize, 1);
+    onAddToCart(product._id, selectedSize, 1);
     toast({
       title: 'Added to cart',
       description: `${product.name} (${selectedSize})`,
@@ -40,7 +40,7 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
     <Card className="overflow-hidden hover:shadow-xl transition-all duration-300  border-border/50">
       <div 
         className="aspect-square overflow-hidden cursor-pointer relative"
-        onClick={() => navigate(`/product/${product.id}`)}
+        onClick={() => navigate(`/product/${product._id}`)}
       >
         <img
           src={product.imageUrl}
@@ -73,7 +73,7 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
           <Button 
             variant="outline"
             className="flex-1 cursor-pointer hover:bg-black hover:text-white transition-colors duration-300"
-            onClick={() => navigate(`/product/${product.id}`)}
+            onClick={() => navigate(`/product/${product._id}`)}
           >
             <Eye className="h-4 w-4 mr-2" />
             Details
@@ -82,7 +82,7 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
           variant="outline"
             className="flex-1 hover:bg-black hover:text-white cursor-pointer transition-colors duration-300"
             onClick={handleAddToCart}
-            disabled={!product.inStock}
+            disabled={product.stockQuantity <= 0}
           >
             <ShoppingCart className="h-4 w-4 mr-2" />
             Add

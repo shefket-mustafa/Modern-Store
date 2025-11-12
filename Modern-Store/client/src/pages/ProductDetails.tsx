@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router';
-import type { Size } from '../types';
+import type { Product, Size } from '../types';
 import { useToast } from '../hooks/use-toast';
-import { mockProducts } from '../data/mockProducts';
 import { Button } from '../components/ui/button';
 
 interface ProductDetailProps {
@@ -11,13 +10,28 @@ interface ProductDetailProps {
 }
 
 export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const product = mockProducts.find((p) => p.id === id);
   const [selectedSize, setSelectedSize] = useState<Size | null>(null);
   const [quantity, setQuantity] = useState(1);
+  const [product, setProduct] = useState<Product | null>(null);
+  
+  useEffect(() => {
+    const fetchDetails = async() => {
+      try{
+        const response = await fetch(`${BASE_URL}/items/${id}`)
+        const data = await response.json();
+        setProduct(data);
+      }catch(err){
+        console.error("Failed to load item details: ", err)
+      }
+    }
 
+    fetchDetails()
+  },[])
+  
   if (!product) {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
@@ -39,7 +53,7 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
       return;
     }
 
-    onAddToCart(product.id, selectedSize, quantity);
+    onAddToCart(product._id, selectedSize, quantity);
     toast({
       title: 'Added to cart',
       description: `${product.name} (${selectedSize}) x${quantity}`,
@@ -60,7 +74,7 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="aspect-square overflow-hidden rounded-lg">
           <img
-            src={product.image}
+            src={product.imageUrl}
             alt={product.name}
             className="w-full h-full object-cover"
           />
@@ -120,9 +134,9 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
             size="lg"
             className="cursor-pointer border hover:bg-black hover:text-white transition-colors duration-300"
             onClick={handleAddToCart}
-            disabled={!product.inStock}
+            disabled={product.stockQuantity <= 0}
           >
-            {product.inStock ? 'Add to Cart' : 'Out of Stock'}
+            {product.stockQuantity > 0 ? 'Add to Cart' : 'Out of Stock'}
           </Button>
         </div>
       </div>
