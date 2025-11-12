@@ -1,10 +1,13 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { adminAddItemSchema, type AdminAddItemSchemaType } from "../../lib/zod/adminAddItemSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { AdminEditItemSchemaType } from "../../lib/zod/adminEditItemSchema";
+import { adminEditItemSchema,  } from '../../lib/zod/adminEditItemSchema';
+import type { AdminItemType } from "../../../types";
+import { useEffect } from "react";
 
 
-export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setFetchAgain}: {addItemModalOpen: boolean, setAddItemModalOpen: React.Dispatch<React.SetStateAction<boolean>>, setFetchAgain: React.Dispatch<React.SetStateAction<boolean>>}) {
+export default function EditItemModal({editItemModalOpen, setEditItemModalOpen, setFetchAgain, selectedItem}: {editItemModalOpen: boolean, setEditItemModalOpen: React.Dispatch<React.SetStateAction<boolean>>, setFetchAgain: React.Dispatch<React.SetStateAction<boolean>>, selectedItem: AdminItemType | null}) {
     const BASE_URL = import.meta.env.VITE_BASE_URL;
     const token = localStorage.getItem('token');
    
@@ -12,14 +15,30 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setF
         register,
         handleSubmit,
         setError,
+        reset,
         formState: {errors, isSubmitting}
     
-    } = useForm<AdminAddItemSchemaType>({resolver: zodResolver(adminAddItemSchema)})
+    } = useForm<AdminEditItemSchemaType>({resolver: zodResolver(adminEditItemSchema)})
 
-    const handleAddItem = async (data: AdminAddItemSchemaType) => {
+  useEffect(() => {
+    if(selectedItem){
+        reset({
+             name: selectedItem.name,
+      price: selectedItem.price,
+      category: selectedItem.category,
+      subcategory: selectedItem.subcategory,
+      imageUrl: selectedItem.imageUrl,
+      description: selectedItem.description,
+      sizes: selectedItem.sizes,
+      stockQuantity: selectedItem.stockQuantity,
+        })
+    }
+  },[selectedItem, reset])
+
+    const handleEditItem = async (data: AdminEditItemSchemaType, id:string) => {
         try {
-            const response = await fetch(`${BASE_URL}/admin/add-item`, {
-                method: 'POST',
+            const response = await fetch(`${BASE_URL}/admin/editItemAdmin/${id}`, {
+                method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
                     "Authorization":  `Bearer ${token}`
@@ -34,7 +53,7 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setF
 
             setFetchAgain(true);
             // Close the modal on success
-            setAddItemModalOpen(false);
+            setEditItemModalOpen(false);
         } catch (error: any) {
             setError('root', { type: 'server', message: error.message });
         }
@@ -44,7 +63,7 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setF
   return (
     // {/* Add Item Modal */}
     <AnimatePresence>
-      {addItemModalOpen && (
+      {editItemModalOpen && (
         <>
           {/* Background overlay */}
           <motion.div
@@ -52,7 +71,7 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setF
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setAddItemModalOpen(false)}
+            onClick={() => setEditItemModalOpen(false)}
           />
 
           {/* Modal content */}
@@ -71,9 +90,11 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setF
                 ))
                 }
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                Add New Item
+                Edit Item
               </h2>
-              <form onSubmit={handleSubmit(handleAddItem)} className="flex flex-col gap-3">
+              <form onSubmit={handleSubmit((data)=>{
+                if(selectedItem?._id) handleEditItem(data, selectedItem._id)
+              })} className="flex flex-col gap-3">
                 <input
                   type="text"
                   placeholder="Item name"
@@ -144,7 +165,7 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setF
                 <div className="flex justify-end gap-3 mt-4">
                   <button
                     type="button"
-                    onClick={() => setAddItemModalOpen(false)}
+                    onClick={() => setEditItemModalOpen(false)}
                     className="px-4 py-2 rounded-lg cursor-pointer bg-gray-200 hover:bg-gray-300 transition"
                   >
                     Cancel

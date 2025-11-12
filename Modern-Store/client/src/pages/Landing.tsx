@@ -1,6 +1,5 @@
 import { ArrowRight } from 'lucide-react';
 import { Link} from "react-router"
-import { mockProducts } from '../data/mockProducts';
 import { Button } from '../components/ui/button';
 import { ProductCard } from '../components/ProductCard';
 import { useEffect, useState } from 'react';
