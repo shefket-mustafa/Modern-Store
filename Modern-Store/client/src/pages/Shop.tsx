@@ -3,7 +3,7 @@ import { ProductCard } from "../components/ProductCard";
 import { filterProducts } from "../helpers/filterProducts";
 import type { Product, ShopProps, ShopTitleTypes } from "../types";
 import { useShop } from "../context/ShopContext";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 
 
@@ -11,44 +11,38 @@ import { useLocation } from "react-router";
 export const Shop = ({ onAddToCart }: ShopProps) => {
 
   const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const { filters, setFilters, shopTitle, setShopTitle } = useShop();
-  const pathname = useLocation().pathname;
-const titleSegment = pathname.split("/").pop()?.toLowerCase();
-const title = titleSegment === "shop" || !titleSegment ? undefined : titleSegment;
-
+  const { filters, setFilters, setShopTitle } = useShop();
+  const pathname = useLocation().pathname;  
   const [products, setProducts] = useState<Product[]>([]);
 
-    const fetchCategory = useMemo(() => {
-    const topLevel = ["men", "women", "all"];
-    const f = typeof filters?.category === "string" ? filters.category.toLowerCase() : undefined;
-    return f && topLevel.includes(f) ? f : title;
-  }, [filters?.category, title]);
+  const segments = pathname.split("/").filter(Boolean); // removes empty parts
+    const category = segments[1]; // e.g. "men" or "women"
+    const subcategory = segments[2]; // e.g. "tshirts"
 
-  useEffect(() => {
-    let safeTitle: ShopTitleTypes;
+useEffect(() => {
+    const formatTitle = () => {
+      if (!category && !subcategory) return "All Products";
+      if (category && !subcategory)
+        return `${category[0].toUpperCase() + category.slice(1)}’s Collection`;
+      if (category && subcategory)
+        return `${category[0].toUpperCase() + category.slice(1)}’s ${
+          subcategory[0].toUpperCase() + subcategory.slice(1)
+        }`;
+      return "All Products";
+    };
 
-    switch (fetchCategory) {
-      case "men":
-        safeTitle = "Men's Collection";
-        break;
-      case "women":
-        safeTitle = "Women's Collection";
-        break;
-      default:
-        safeTitle = "All Products";
-    }
-    setShopTitle(safeTitle)
-  },[title, setShopTitle]);
+    setShopTitle(formatTitle() as ShopTitleTypes);
+  }, [category, subcategory, setShopTitle]);
 
-  console.log(shopTitle);
+
   
   useEffect(() => {
     const controller = new AbortController();
     const fetchItems = async() => {
       try{
-        const category = title !== "all" ? title: undefined;
         const url = new URL(`${BASE_URL}/items`);
         if(category) url.searchParams.append("category", category);
+        if(subcategory) url.searchParams.append("subcategory", subcategory);
 
         const res = await fetch(url.toString(), {
           method: "GET",
@@ -68,7 +62,7 @@ const title = titleSegment === "shop" || !titleSegment ? undefined : titleSegmen
     fetchItems()
     return () => controller.abort()
     
-  },[title, BASE_URL])
+  },[category, subcategory, BASE_URL])
   
   
 
@@ -88,7 +82,13 @@ const title = titleSegment === "shop" || !titleSegment ? undefined : titleSegmen
         <main className="md:col-span-3">
           <div className="mb-6">
             <h1 className="text-3xl font-bold mb-2">
-              {shopTitle}
+               {category && subcategory
+                ? `${category[0].toUpperCase() + category.slice(1)}’s ${
+                    subcategory[0].toUpperCase() + subcategory.slice(1)
+                  }`
+                : category
+                ? `${category[0].toUpperCase() + category.slice(1)}’s Collection`
+                : "All Products"}
             </h1>
             <p className="text-muted-foreground">
               {filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"}

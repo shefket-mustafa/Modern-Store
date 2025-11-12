@@ -57,7 +57,7 @@ export const Landing = ({ onAddToCart }: LandingProps) => {
           </p>
           <div className="flex gap-4 justify-center">
             <Button size="lg" className="text-lg px-8 bg-white/10 backdrop-blur-sm border-white border text-white hover:bg-white/30 hover:text-primary" asChild>
-              <Link to="/shop">
+              <Link to="/shop/all">
                 Shop Now <ArrowRight className="ml-2" />
               </Link>
             </Button>
