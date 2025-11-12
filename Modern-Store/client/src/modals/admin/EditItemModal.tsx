@@ -33,6 +33,9 @@ export default function EditItemModal({editItemModalOpen, setEditItemModalOpen, 
       stockQuantity: selectedItem.stockQuantity,
         })
     }
+
+    //Resetting the form when the model closes or item changes
+    return () => reset()
   },[selectedItem, reset])
 
     const handleEditItem = async (data: AdminEditItemSchemaType, id:string) => {
