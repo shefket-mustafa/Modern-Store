@@ -122,7 +122,7 @@ export const Landing = ({ onAddToCart }: LandingProps) => {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {featuredCollection.map((product) => (
-              <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+              <ProductCard key={product._id} product={product} onAddToCart={onAddToCart} />
             ))}
           </div>
           <div className="text-center mt-12">
