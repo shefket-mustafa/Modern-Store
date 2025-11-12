@@ -53,7 +53,11 @@ useEffect(() => {
           const data = await res.json();
         setProducts(data)
         
-      }catch(err){
+      }catch(err){ 
+         if (err instanceof DOMException && err.name === "AbortError") {
+    // Request was intentionally aborted — do nothing. The error in the console was bugging me
+    return;
+  }
 
         console.error("Error fetching data: ", err)
       }
@@ -98,7 +102,7 @@ useEffect(() => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.map((product: Product) => (
               <ProductCard
-                key={product.id}
+                key={product._id}
                 product={product}
                 onAddToCart={onAddToCart}
               />

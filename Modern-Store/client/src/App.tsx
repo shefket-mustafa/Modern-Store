@@ -29,17 +29,17 @@ const App = () => {
   const {user} = useUser();
 
   const handleAddToCart = (productId: string, size: Size, quantity: number) => {
-    const product = mockProducts.find((p) => p.id === productId);
+    const product = mockProducts.find((p) => p._id === productId);
     if (!product) return;
 
     setCartItems((prev) => {
       const existingItem = prev.find(
-        (item) => item.product.id === productId && item.size === size
+        (item) => item.product._id === productId && item.size === size
       );
 
       if (existingItem) {
         return prev.map((item) =>
-          item.product.id === productId && item.size === size
+          item.product._id === productId && item.size === size
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
@@ -51,14 +51,14 @@ const App = () => {
 
   const handleRemoveItem = (productId: string, size: string) => {
     setCartItems((prev) =>
-      prev.filter((item) => !(item.product.id === productId && item.size === size))
+      prev.filter((item) => !(item.product._id === productId && item.size === size))
     );
   };
 
   const handleUpdateQuantity = (productId: string, size: string, quantity: number) => {
     setCartItems((prev) =>
       prev.map((item) =>
-        item.product.id === productId && item.size === size
+        item.product._id === productId && item.size === size
           ? { ...item, quantity }
           : item
       )
