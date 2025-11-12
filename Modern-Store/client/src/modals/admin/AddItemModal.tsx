@@ -11,6 +11,7 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setF
     const {
         register,
         handleSubmit,
+        reset,
         setError,
         formState: {errors, isSubmitting}
     
@@ -32,6 +33,7 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setF
                 throw new Error(errorData.message || 'Failed to add item');
             }
 
+            reset()
             setFetchAgain(true);
             // Close the modal on success
             setAddItemModalOpen(false);
