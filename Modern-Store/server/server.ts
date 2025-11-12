@@ -4,6 +4,7 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import { authRouter } from './routes/authRoutes';
 import { adminRoutes } from './routes/adminRoutes';
+import { itemsRoutes } from './routes/itemsRoutes';
 
 dotenv.config();
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use("/auth", authRouter)
 app.use("/admin", adminRoutes)
+app.use("/items", itemsRoutes)
 
 const PORT = process.env.PORT || 3001;
 const MONGO_URI = process.env.MONGO_URI;

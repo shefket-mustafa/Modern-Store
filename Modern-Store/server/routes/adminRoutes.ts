@@ -4,6 +4,7 @@ import { adminMiddleware } from "../middleware/adminMiddleware";
 import { AdminItemModel } from "../models/AdminItem"
 import { authMiddleware } from "../middleware/authMiddleware";
 import { UserModel } from "../models/User";
+import mongoose from "mongoose";
 
 
 export const adminRoutes = Router();
@@ -45,6 +46,23 @@ adminRoutes.delete("/delete-item/:id", authMiddleware, adminMiddleware, async(re
         res.json({message: "Item deleted successfully", item: deletedItem});
     }catch(error){
         res.status(500).json({message: "Server error"})
+    }
+})
+
+adminRoutes.patch("/editItemAdmin/:id", authMiddleware, adminMiddleware, async(req: Request, res: Response) => {
+    try{
+        const { id } = req.params;
+        const updatedData = req.body;
+
+        const objectId = new mongoose.Types.ObjectId(id)
+        const updatedItem = await AdminItemModel.findOneAndUpdate(objectId, updatedData, {new:true});
+
+        if(!updatedItem) res.status(404).json({message: "Item not found!"});
+
+        return res.json({message: "Item updated successfully!", item: updatedItem})
+
+    }catch(err){
+        return res.status(500).json({error: "Server error!"})
     }
 })
 

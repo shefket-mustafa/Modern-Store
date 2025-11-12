@@ -43,7 +43,7 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
         onClick={() => navigate(`/product/${product.id}`)}
       >
         <img
-          src={product.image}
+          src={product.imageUrl}
           alt={product.name}
           className="w-full h-full object-cover hover:scale-110  transition-transform duration-500"
         />

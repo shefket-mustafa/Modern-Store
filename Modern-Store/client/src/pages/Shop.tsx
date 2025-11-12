@@ -1,24 +1,33 @@
 import { CategoryFilter } from "../components/CategoryFilter";
 import { ProductCard } from "../components/ProductCard";
 import { filterProducts } from "../helpers/filterProducts";
-import { mockProducts } from "../data/mockProducts";
 import type { Product, ShopProps, ShopTitleTypes } from "../types";
 import { useShop } from "../context/ShopContext";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router";
 
 
 
 export const Shop = ({ onAddToCart }: ShopProps) => {
 
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const { filters, setFilters, shopTitle, setShopTitle } = useShop();
   const pathname = useLocation().pathname;
-  const title = pathname.split("/").pop()?.toLowerCase();
+const titleSegment = pathname.split("/").pop()?.toLowerCase();
+const title = titleSegment === "shop" || !titleSegment ? undefined : titleSegment;
+
+  const [products, setProducts] = useState<Product[]>([]);
+
+    const fetchCategory = useMemo(() => {
+    const topLevel = ["men", "women", "all"];
+    const f = typeof filters?.category === "string" ? filters.category.toLowerCase() : undefined;
+    return f && topLevel.includes(f) ? f : title;
+  }, [filters?.category, title]);
 
   useEffect(() => {
     let safeTitle: ShopTitleTypes;
 
-    switch (title) {
+    switch (fetchCategory) {
       case "men":
         safeTitle = "Men's Collection";
         break;
@@ -33,8 +42,37 @@ export const Shop = ({ onAddToCart }: ShopProps) => {
 
   console.log(shopTitle);
   
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchItems = async() => {
+      try{
+        const category = title !== "all" ? title: undefined;
+        const url = new URL(`${BASE_URL}/items`);
+        if(category) url.searchParams.append("category", category);
 
-  const filteredProducts = filterProducts(mockProducts, filters);
+        const res = await fetch(url.toString(), {
+          method: "GET",
+          headers: {"Content-Type": "application/json"},
+          signal: controller.signal
+        })
+        if(!res.ok) throw new Error("Error fetching items")
+          const data = await res.json();
+        setProducts(data)
+        
+      }catch(err){
+
+        console.error("Error fetching data: ", err)
+      }
+    }
+
+    fetchItems()
+    return () => controller.abort()
+    
+  },[title, BASE_URL])
+  
+  
+
+  const filteredProducts = filterProducts(products, filters);
 
   return (
     <div className="container mx-auto px-4 py-8">
