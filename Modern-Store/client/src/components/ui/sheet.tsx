@@ -2,6 +2,7 @@ import * as React from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
 import { cn } from "../../lib/utils";
+import {motion} from "framer-motion";
 
 export const Sheet = Dialog.Root;
 export const SheetTrigger = Dialog.Trigger;
@@ -25,10 +26,10 @@ export const SheetOverlay = React.forwardRef<
 SheetOverlay.displayName = "SheetOverlay";
 
 const positions = {
-  right: "right-0 top-0 h-full w-80 border-l",
-  left: "left-0 top-0 h-full w-80 border-r",
-  top: "top-0 left-0 w-full h-1/3 border-b",
-  bottom: "bottom-0 left-0 w-full h-1/3 border-t",
+  right:  "inset-0 flex",          // full screen container
+  left:   "inset-0 flex",
+  top:    "inset-0 flex",
+  bottom: "inset-0 flex",
 } as const;
 
 interface SheetContentProps
@@ -36,30 +37,60 @@ interface SheetContentProps
   side?: keyof typeof positions;
 }
 
-export const SheetContent = React.forwardRef<
-  HTMLDivElement,
-  SheetContentProps
->(({ side = "right", className, children, ...props }, ref) => (
-  <SheetPortal>
-    <SheetOverlay />
+export const SheetContent = React.forwardRef<HTMLDivElement, SheetContentProps>(
+  ({ side = "right", className, children, ...props }, ref) => {
+    const slide = {
+      initial: { x: side === "right" ? 80 : side === "left" ? -80 : 0, opacity: 0 },
+      animate: { x: 0, opacity: 1 },
+      exit: { x: side === "right" ? 80 : side === "left" ? -80 : 0, opacity: 0 },
+      transition: { type: "spring", stiffness: 260, damping: 25 } as const,
+    };
 
-    <Dialog.Content
-      ref={ref}
-      className={cn(
-        "fixed z-50 bg-white p-6 shadow-lg flex flex-col",
-        positions[side],
-        className
-      )}
-      {...props}
-    >
-      {children}
+    // panelWidth can be tuned; keeps Content full-screen for focus trap,
+    // while the inner panel actually slides.
+    const panelBase =
+      side === "right"
+        ? "ml-auto border-l"
+        : side === "left"
+        ? "mr-auto border-r"
+        : "mx-auto border-b";
 
-      <SheetClose className="absolute right-4 top-4 opacity-70 hover:opacity-100 transition">
-        <X className="w-4 h-4" />
-      </SheetClose>
-    </Dialog.Content>
-  </SheetPortal>
-));
+    return (
+      <SheetPortal>
+        <SheetOverlay />
+
+        <Dialog.Content
+          ref={ref}
+          className={cn(
+            "fixed z-50 p-0 outline-none",
+            positions[side],
+          )}
+          {...props}
+        >
+          <motion.div
+            initial={slide.initial}
+            animate={slide.animate}
+            exit={slide.exit}
+            transition={slide.transition}
+            className={cn(
+              "bg-white shadow-lg flex flex-col h-full w-full max-w-sm sm:w-lg p-6",
+              panelBase,
+              className
+            )}
+          >
+            {children}
+
+            <SheetClose className="absolute right-4 top-4 opacity-70 hover:opacity-100 transition">
+              <X className="w-4 h-4" />
+            </SheetClose>
+          </motion.div>
+        </Dialog.Content>
+      </SheetPortal>
+    );
+  }
+);
+SheetContent.displayName = "SheetContent";
+
 
 SheetContent.displayName = "SheetContent";
 
