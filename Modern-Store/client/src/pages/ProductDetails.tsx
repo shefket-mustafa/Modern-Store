@@ -6,7 +6,7 @@ import { useToast } from '../hooks/use-toast';
 import { Button } from '../components/ui/button';
 
 interface ProductDetailProps {
-  onAddToCart: (productId: string, size: Size, quantity: number) => void;
+  onAddToCart: (product: Product, size: Size, quantity: number) => void;
 }
 
 export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
@@ -53,7 +53,7 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
       return;
     }
 
-    onAddToCart(product._id, selectedSize, quantity);
+    onAddToCart(product, selectedSize, quantity);
     toast({
       title: 'Added to cart',
       description: `${product.name} (${selectedSize}) x${quantity}`,

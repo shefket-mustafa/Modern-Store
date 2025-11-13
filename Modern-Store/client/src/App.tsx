@@ -4,8 +4,7 @@ import {  Routes, Route } from "react-router";
 import { Landing } from "./pages/Landing";
 import { Shop } from "./pages/Shop";
 import NotFound from "./pages/NotFound";
-import type { CartItem, Size } from "./types";
-import { mockProducts } from "./data/mockProducts";
+import type { CartItem, Product, Size } from "./types";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { Toaster } from "./components/ui/toaster";
 import { Sonner } from "./components/ui/sonner";
@@ -28,26 +27,23 @@ const App = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const {user} = useUser();
 
-  const handleAddToCart = (productId: string, size: Size, quantity: number) => {
-    const product = mockProducts.find((p) => p._id === productId);
-    if (!product) return;
+ const handleAddToCart = (product: Product, size: Size, quantity: number) => {
+  setCartItems((prev) => {
+    const existingItem = prev.find(
+      (item) => item.product._id === product._id && item.size === size
+    );
 
-    setCartItems((prev) => {
-      const existingItem = prev.find(
-        (item) => item.product._id === productId && item.size === size
+    if (existingItem) {
+      return prev.map((item) =>
+        item.product._id === product._id && item.size === size
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
       );
+    }
 
-      if (existingItem) {
-        return prev.map((item) =>
-          item.product._id === productId && item.size === size
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      }
-
-      return [...prev, { product, size, quantity }];
-    });
-  };
+    return [...prev, { product, size, quantity }];
+  });
+};
 
   const handleRemoveItem = (productId: string, size: string) => {
     setCartItems((prev) =>

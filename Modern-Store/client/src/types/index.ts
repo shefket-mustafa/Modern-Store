@@ -27,7 +27,7 @@ export interface FilterState {
 }
 
 export interface ShopProps {
-  onAddToCart: (productId: string, size: Size, quantity: number) => void;
+  onAddToCart: (product: Product, size: Size, quantity: number) => void;
 }
 
 export type ShopContextType = {
