@@ -73,6 +73,15 @@ const App = () => {
         <ScrollOnTop />
         <Toaster />
         <Sonner />
+
+         <Cart
+              isOpen={isCartOpen}
+              onClose={() => setIsCartOpen(false)}
+              items={cartItems}
+              onRemoveItem={handleRemoveItem}
+              onUpdateQuantity={handleUpdateQuantity}
+            />
+            
           <div className="min-h-screen bg-background flex flex-col">
             <Header
               cartItemsCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} 
@@ -92,13 +101,7 @@ const App = () => {
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />
-            <Cart
-              isOpen={isCartOpen}
-              onClose={() => setIsCartOpen(false)}
-              items={cartItems}
-              onRemoveItem={handleRemoveItem}
-              onUpdateQuantity={handleUpdateQuantity}
-            />
+           
           </div>
           </ShopProvider>
       </TooltipProvider>

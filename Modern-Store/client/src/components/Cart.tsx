@@ -15,8 +15,8 @@ export const Cart = ({ isOpen, onClose, items, onRemoveItem, onUpdateQuantity }:
   const total = items.reduce((sum, item) => sum + item.product.price * item.quantity, 0);
 
   return (
-    <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className="w-full sm:max-w-lg">
+    <Sheet open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
+      <SheetContent side='right' className="sm:max-w-lg">
         <SheetHeader>
           <SheetTitle>Shopping Cart ({items.length})</SheetTitle>
         </SheetHeader>
@@ -28,9 +28,9 @@ export const Cart = ({ isOpen, onClose, items, onRemoveItem, onUpdateQuantity }:
             <>
               <div className="space-y-4 max-h-[60vh] overflow-y-auto">
                 {items.map((item) => (
-                  <div key={`${item.product.id}-${item.size}`} className="flex gap-4 border-b pb-4">
+                  <div key={`${item.product._id}-${item.size}`} className="flex gap-4 border-b pb-4">
                     <img
-                      src={item.product.image}
+                      src={item.product.imageUrl}
                       alt={item.product.name}
                       className="w-20 h-20 object-cover rounded"
                     />
@@ -43,7 +43,7 @@ export const Cart = ({ isOpen, onClose, items, onRemoveItem, onUpdateQuantity }:
                           variant="outline"
                           size="sm"
                           onClick={() =>
-                            onUpdateQuantity(item.product.id, item.size, Math.max(1, item.quantity - 1))
+                            onUpdateQuantity(item.product._id, item.size, Math.max(1, item.quantity - 1))
                           }
                         >
                           -
@@ -52,7 +52,7 @@ export const Cart = ({ isOpen, onClose, items, onRemoveItem, onUpdateQuantity }:
                         <Button
                           variant="outline"
                           size="sm"
-                          onClick={() => onUpdateQuantity(item.product.id, item.size, item.quantity + 1)}
+                          onClick={() => onUpdateQuantity(item.product._id, item.size, item.quantity + 1)}
                         >
                           +
                         </Button>
@@ -61,7 +61,7 @@ export const Cart = ({ isOpen, onClose, items, onRemoveItem, onUpdateQuantity }:
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => onRemoveItem(item.product.id, item.size)}
+                      onClick={() => onRemoveItem(item.product._id, item.size)}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
