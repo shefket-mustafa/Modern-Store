@@ -78,11 +78,13 @@ export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
             </button>
           )}
 
+        {user && (
+
           <Button
-            variant="ghost"
-            size="icon"
-            onClick={onCartClick}
-            className="relative hover:scale-150 transition cursor-pointer"
+          variant="ghost"
+          size="icon"
+          onClick={onCartClick}
+          className="relative hover:scale-150 transition cursor-pointer"
           >
             <ShoppingCart className="h-5 w-5" />
             {cartItemsCount > 0 && (
@@ -91,6 +93,7 @@ export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
               </span>
             )}
           </Button>
+              )}
         </div>
       </div>
     </header>
