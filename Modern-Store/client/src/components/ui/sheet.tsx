@@ -13,6 +13,8 @@ export const SheetOverlay = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof Dialog.Overlay>
 >(({ className, ...props }, ref) => (
+
+  <SheetClose asChild>
   <Dialog.Overlay
     ref={ref}
     className={cn(
@@ -21,15 +23,16 @@ export const SheetOverlay = React.forwardRef<
     )}
     {...props}
   />
+  </SheetClose>
 ));
 
 SheetOverlay.displayName = "SheetOverlay";
 
 const positions = {
-  right:  "inset-0 flex",          // full screen container
-  left:   "inset-0 flex",
-  top:    "inset-0 flex",
-  bottom: "inset-0 flex",
+  right: "right-0 top-0 h-full",
+  left: "left-0 top-0 h-full",
+  top: "top-0 left-0 w-full",
+  bottom: "bottom-0 left-0 w-full",
 } as const;
 
 interface SheetContentProps
