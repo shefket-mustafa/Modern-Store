@@ -4,7 +4,6 @@ import {  Routes, Route } from "react-router";
 import { Landing } from "./pages/Landing";
 import { Shop } from "./pages/Shop";
 import NotFound from "./pages/NotFound";
-import type { CartItem, Product, Size } from "./types";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { Toaster } from "./components/ui/toaster";
 import { Sonner } from "./components/ui/sonner";
@@ -19,47 +18,21 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Admin from "./pages/Admin";
 import { useUser } from "./hooks/useUser";
+import { useCartStore } from "./zustand-store/cart-store";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  // const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const cartItems = useCartStore((state) => state.items)
   const [isCartOpen, setIsCartOpen] = useState(false);
   const {user} = useUser();
 
- const handleAddToCart = (product: Product, size: Size, quantity: number) => {
-  setCartItems((prev) => {
-    const existingItem = prev.find(
-      (item) => item.product._id === product._id && item.size === size
-    );
+ const handleAddToCart = useCartStore((state) => state.addItem);
 
-    if (existingItem) {
-      return prev.map((item) =>
-        item.product._id === product._id && item.size === size
-          ? { ...item, quantity: item.quantity + quantity }
-          : item
-      );
-    }
+  const handleRemoveItem = useCartStore((state) => state.removeItem);
 
-    return [...prev, { product, size, quantity }];
-  });
-};
-
-  const handleRemoveItem = (productId: string, size: string) => {
-    setCartItems((prev) =>
-      prev.filter((item) => !(item.product._id === productId && item.size === size))
-    );
-  };
-
-  const handleUpdateQuantity = (productId: string, size: string, quantity: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.product._id === productId && item.size === size
-          ? { ...item, quantity }
-          : item
-      )
-    );
-  };
+  const handleUpdateQuantity = useCartStore((state) => state.updateQty);;
 
   // persist any time cart changes
 useEffect(() => {
