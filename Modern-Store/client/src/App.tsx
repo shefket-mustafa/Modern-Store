@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {  Routes, Route } from "react-router";
 import { Landing } from "./pages/Landing";
@@ -33,11 +33,6 @@ const App = () => {
   const handleRemoveItem = useCartStore((state) => state.removeItem);
 
   const handleUpdateQuantity = useCartStore((state) => state.updateQty);;
-
-  // persist any time cart changes
-useEffect(() => {
-  localStorage.setItem("cart", JSON.stringify(cartItems));
-}, [cartItems]);
 
 
   return (
