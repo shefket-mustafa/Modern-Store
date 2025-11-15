@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import type { Product } from '../types';
 
 interface LandingProps {
-  onAddToCart: (productId: string, size: any, quantity: number) => void;
+  onAddToCart: (product: Product, size: any, quantity: number) => void;
 }
 
 

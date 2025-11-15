@@ -10,7 +10,7 @@ import { Button } from './ui/button';
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart: (productId: string, size: Size, quantity: number) => void;
+  onAddToCart: (product: Product, size: Size, quantity: number) => void;
 }
 
 export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
@@ -28,7 +28,7 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
       return;
     }
 
-    onAddToCart(product._id, selectedSize, 1);
+    onAddToCart(product, selectedSize, 1);
     toast({
       title: 'Added to cart',
       description: `${product.name} (${selectedSize})`,

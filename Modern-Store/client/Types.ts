@@ -1,4 +1,5 @@
 import * as React from 'react';
+import type { CartItem, Product, Size } from './src/types';
 
 export type UserType = {
   _id: string
@@ -41,6 +42,16 @@ export type AdminItemType = {
 //     sizes?: string[];
 //     stockQuantity?: number;
 // }
+
+
+export type CartState = {
+  items: CartItem[];
+  addItem: (product: Product, size: Size, qty: number) => void;
+  removeItem: (productId: string, size: string) => void;
+  updateQty: (productId: string, size: string, qty: number) => void;
+  clear: () => void;
+};
+
 
 export type allUsersType = {
   _id: string;

@@ -4,8 +4,6 @@ import {  Routes, Route } from "react-router";
 import { Landing } from "./pages/Landing";
 import { Shop } from "./pages/Shop";
 import NotFound from "./pages/NotFound";
-import type { CartItem, Size } from "./types";
-import { mockProducts } from "./data/mockProducts";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { Toaster } from "./components/ui/toaster";
 import { Sonner } from "./components/ui/sonner";
@@ -20,50 +18,21 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Admin from "./pages/Admin";
 import { useUser } from "./hooks/useUser";
+import { useCartStore } from "./zustand-store/cart-store";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  // const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const cartItems = useCartStore((state) => state.items)
   const [isCartOpen, setIsCartOpen] = useState(false);
   const {user} = useUser();
 
-  const handleAddToCart = (productId: string, size: Size, quantity: number) => {
-    const product = mockProducts.find((p) => p._id === productId);
-    if (!product) return;
+ const handleAddToCart = useCartStore((state) => state.addItem);
 
-    setCartItems((prev) => {
-      const existingItem = prev.find(
-        (item) => item.product._id === productId && item.size === size
-      );
+  const handleRemoveItem = useCartStore((state) => state.removeItem);
 
-      if (existingItem) {
-        return prev.map((item) =>
-          item.product._id === productId && item.size === size
-            ? { ...item, quantity: item.quantity + quantity }
-            : item
-        );
-      }
-
-      return [...prev, { product, size, quantity }];
-    });
-  };
-
-  const handleRemoveItem = (productId: string, size: string) => {
-    setCartItems((prev) =>
-      prev.filter((item) => !(item.product._id === productId && item.size === size))
-    );
-  };
-
-  const handleUpdateQuantity = (productId: string, size: string, quantity: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.product._id === productId && item.size === size
-          ? { ...item, quantity }
-          : item
-      )
-    );
-  };
+  const handleUpdateQuantity = useCartStore((state) => state.updateQty);;
 
 
   return (
@@ -73,6 +42,15 @@ const App = () => {
         <ScrollOnTop />
         <Toaster />
         <Sonner />
+
+         <Cart
+              isOpen={isCartOpen}
+              onClose={() => setIsCartOpen(false)}
+              items={cartItems}
+              onRemoveItem={handleRemoveItem}
+              onUpdateQuantity={handleUpdateQuantity}
+            />
+            
           <div className="min-h-screen bg-background flex flex-col">
             <Header
               cartItemsCount={cartItems.reduce((sum, item) => sum + item.quantity, 0)} 
@@ -92,13 +70,7 @@ const App = () => {
               <Route path="*" element={<NotFound />} />
             </Routes>
             <Footer />
-            <Cart
-              isOpen={isCartOpen}
-              onClose={() => setIsCartOpen(false)}
-              items={cartItems}
-              onRemoveItem={handleRemoveItem}
-              onUpdateQuantity={handleUpdateQuantity}
-            />
+           
           </div>
           </ShopProvider>
       </TooltipProvider>
