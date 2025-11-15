@@ -118,7 +118,7 @@ export const Cart = ({
                             <Button
                               variant="outline"
                               size="icon"
-                              className="h-8 w-8"
+                              className="h-8 w-8 cursor-pointer"
                               aria-label={`Decrease ${item.product.name}`}
                               onClick={() =>
                                 onUpdateQuantity(
@@ -135,7 +135,7 @@ export const Cart = ({
                             <Button
                               variant="outline"
                               size="icon"
-                              className="h-8 w-8"
+                              className="h-8 w-8 cursor-pointer"
                               aria-label={`Increase ${item.product.name}`}
                               onClick={() =>
                                 onUpdateQuantity(item.product._id, item.size, item.quantity + 1)
@@ -147,11 +147,12 @@ export const Cart = ({
                         </div>
 
                         {/* Right controls */}
-                        <div className="flex flex-col items-end justify-between">
+                        <div className="flex  items-end justify-between">
+                          {/* trash button  */}
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                            className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer hover:scale-150n transition"
                             aria-label={`Remove ${item.product.name}`}
                             onClick={() => onRemoveItem(item.product._id, item.size)}
                           >

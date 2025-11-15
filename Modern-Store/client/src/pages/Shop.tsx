@@ -20,19 +20,26 @@ export const Shop = ({ onAddToCart }: ShopProps) => {
     const subcategory = segments[2]; // e.g. "tshirts"
 
 useEffect(() => {
-    const formatTitle = () => {
-      if (!category && !subcategory) return "All Products";
-      if (category && !subcategory)
-        return `${category[0].toUpperCase() + category.slice(1)}’s Collection`;
-      if (category && subcategory)
-        return `${category[0].toUpperCase() + category.slice(1)}’s ${
-          subcategory[0].toUpperCase() + subcategory.slice(1)
-        }`;
-      return "All Products";
-    };
+  const formatTitle = () => {
+    if (!category || category === "all") return "All Products";
 
-    setShopTitle(formatTitle() as ShopTitleTypes);
-  }, [category, subcategory, setShopTitle]);
+    if (category && !subcategory) {
+      return `${category[0].toUpperCase() + category.slice(1)}${
+        category.toLowerCase() === "men" || category.toLowerCase() === "women" ? "’s" : ""
+      } Collection`;
+    }
+
+    if (category && subcategory) {
+      return `${category[0].toUpperCase() + category.slice(1)}${
+        category.toLowerCase() === "men" || category.toLowerCase() === "women" ? "’s" : ""
+      } ${subcategory[0].toUpperCase() + subcategory.slice(1)}`;
+    }
+
+    return "All Products";
+  };
+
+  setShopTitle(formatTitle() as ShopTitleTypes);
+}, [category, subcategory, setShopTitle]);
 
 
   
@@ -41,7 +48,7 @@ useEffect(() => {
     const fetchItems = async() => {
       try{
         const url = new URL(`${BASE_URL}/items`);
-        if(category) url.searchParams.append("category", category);
+        if(category && category !== "all") url.searchParams.append("category", category);
         if(subcategory) url.searchParams.append("subcategory", subcategory);
 
         const res = await fetch(url.toString(), {
@@ -85,15 +92,7 @@ useEffect(() => {
         {/* --- Products --- */}
         <main className="md:col-span-3">
           <div className="mb-6">
-            <h1 className="text-3xl font-bold mb-2">
-               {category && subcategory
-                ? `${category[0].toUpperCase() + category.slice(1)}’s ${
-                    subcategory[0].toUpperCase() + subcategory.slice(1)
-                  }`
-                : category
-                ? `${category[0].toUpperCase() + category.slice(1)}’s Collection`
-                : "All Products"}
-            </h1>
+             <h1 className="text-3xl font-bold mb-2">{useShop().shopTitle}</h1>
             <p className="text-muted-foreground">
               {filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"}
             </p>
