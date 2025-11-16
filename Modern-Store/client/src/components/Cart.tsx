@@ -152,7 +152,7 @@ export const Cart = ({
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer hover:scale-150n transition"
+                            className="h-8 w-8 text-muted-foreground hover:text-foreground cursor-pointer hover:scale-150 transition"
                             aria-label={`Remove ${item.product.name}`}
                             onClick={() => onRemoveItem(item.product._id, item.size)}
                           >
