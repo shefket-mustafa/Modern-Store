@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router';
 import type { Product, Size } from '../types';
 import { useToast } from '../hooks/use-toast';
 import { Button } from '../components/ui/button';
+import { useUser } from '../hooks/useUser';
 
 interface ProductDetailProps {
   onAddToCart: (product: Product, size: Size, quantity: number) => void;
@@ -17,6 +18,7 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
   const [selectedSize, setSelectedSize] = useState<Size | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState<Product | null>(null);
+  const {user} = useUser()
   
   useEffect(() => {
     const fetchDetails = async() => {
@@ -48,6 +50,14 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
     if (!selectedSize) {
       toast({
         title: 'Please select a size',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+     if(!user){
+      toast({
+        title: 'Please login to add items to cart',
         variant: 'destructive',
       });
       return;

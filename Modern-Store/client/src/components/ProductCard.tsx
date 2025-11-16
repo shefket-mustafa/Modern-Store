@@ -6,6 +6,7 @@ import { useToast } from '../hooks/use-toast';
 import { Card, CardContent, CardFooter } from './ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { Button } from './ui/button';
+import { useUser } from '../hooks/useUser';
 
 
 interface ProductCardProps {
@@ -17,6 +18,7 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [selectedSize, setSelectedSize] = useState<Size | null>(null);
+  const {user} = useUser()
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -28,12 +30,20 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
       return;
     }
 
+    if(!user){
+      toast({
+        title: 'Please login to add items to cart',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     onAddToCart(product, selectedSize, 1);
     toast({
       title: 'Added to cart',
       description: `${product.name} (${selectedSize})`,
     });
-    // setSelectedSize(null);
+    setSelectedSize(null);
   };
 
   return (
