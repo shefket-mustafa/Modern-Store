@@ -32,7 +32,7 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
     }
 
     fetchDetails()
-  },[])
+  },[BASE_URL, id]);
   
   if (!product) {
     return (
@@ -56,6 +56,7 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
     }
 
      if(!user){
+      setSelectedSize(null);
       toast({
         title: 'Please login to add items to cart',
         variant: 'destructive',
@@ -68,6 +69,7 @@ export const ProductDetail = ({ onAddToCart }: ProductDetailProps) => {
       title: 'Added to cart',
       description: `${product.name} (${selectedSize}) x${quantity}`,
     });
+    setSelectedSize(null);
   };
 
   return (

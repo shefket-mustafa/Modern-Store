@@ -17,7 +17,7 @@ interface ProductCardProps {
 export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [selectedSize, setSelectedSize] = useState<Size | null>(null);
+  const [selectedSize, setSelectedSize] = useState<Size | undefined>();
   const {user} = useUser()
 
   const handleAddToCart = (e: React.MouseEvent) => {
@@ -31,6 +31,7 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
     }
 
     if(!user){
+      setSelectedSize(undefined);
       toast({
         title: 'Please login to add items to cart',
         variant: 'destructive',
@@ -43,7 +44,7 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
       title: 'Added to cart',
       description: `${product.name} (${selectedSize})`,
     });
-    setSelectedSize(null);
+    setSelectedSize(undefined);
   };
 
   return (
@@ -67,7 +68,9 @@ export const ProductCard = ({ product, onAddToCart }: ProductCardProps) => {
         <p className="text-xl font-bold">${product.price.toFixed(2)}</p>
       </CardContent>
       <CardFooter className="p-4 pt-0 flex flex-col gap-2">
-        <Select value={selectedSize || undefined} onValueChange={(value) => setSelectedSize(value as Size)}>
+        <Select 
+         key={selectedSize || "empty"}
+        value={selectedSize || undefined} onValueChange={(value) => setSelectedSize(value as Size)}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Select size" />
           </SelectTrigger>
