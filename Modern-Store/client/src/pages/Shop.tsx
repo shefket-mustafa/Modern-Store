@@ -5,6 +5,7 @@ import type { Product, ShopProps, ShopTitleTypes } from "../types";
 import { useShop } from "../context/ShopContext";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
+import {ArrowDownUp, SlidersHorizontal} from "lucide-react"
 
 
 
@@ -91,12 +92,36 @@ useEffect(() => {
 
         {/* --- Products --- */}
         <main className="md:col-span-3">
-          <div className="mb-6">
-             <h1 className="text-3xl font-bold mb-2">{useShop().shopTitle}</h1>
-            <p className="text-muted-foreground">
-              {filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"}
-            </p>
-          </div>
+         <div className="flex items-end justify-between mb-6 flex-wrap gap-4">
+  {/* Left section — title & product count */}
+  <div>
+    <h1 className="text-3xl font-bold mb-1">{useShop().shopTitle}</h1>
+    <p className="text-muted-foreground text-sm">
+      {filteredProducts.length} {filteredProducts.length === 1 ? "product" : "products"}
+    </p>
+  </div>
+
+  {/* Right section — sort & filter */}
+  <div className="flex items-center gap-3 text-sm">
+    <div className="flex gap-1 border rounded-md px-3 py-1.5 hover:bg-muted transition cursor-pointer">
+    <button>
+    <ArrowDownUp className="w-4 h-4 cursor-pointer"/> 
+    </button>
+
+    <p>Sort</p>
+
+    </div >
+
+    <div className="flex gap-1 border rounded-md px-3 py-1.5 hover:bg-muted transition cursor-pointer">
+
+    <button className="">
+    <SlidersHorizontal className="w-4 h-4" />
+    </button>
+  
+      Filter
+    </div>
+  </div>
+</div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProducts.map((product: Product) => (
