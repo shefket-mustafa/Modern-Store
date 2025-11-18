@@ -64,14 +64,6 @@ export type SortOption =
 
   import * as React from 'react';
 
-export type UserType = {
-  _id: string
-    username: string;
-    email: string;
-    password: string
-    // role indicates authorization level; 'user' by default, 'admin' for administrators
-    role?: 'user' | 'admin'
-}
 export interface HeaderProps {
   cartItemsCount: number;
   onCartClick: () => void;
