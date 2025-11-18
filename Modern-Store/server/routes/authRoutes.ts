@@ -1,7 +1,6 @@
 
 import { Router } from 'express';
 import { Request, Response } from 'express';
-import { authMiddleware } from '../middleware/authMiddleware';
 import { UserModel } from '../models/User';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
