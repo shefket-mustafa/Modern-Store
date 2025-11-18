@@ -2,7 +2,8 @@ import { ShoppingCart } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { Button } from "./ui/button";
 import { useUser } from "../hooks/useUser";
-import type { HeaderProps } from "../../types";
+import type { HeaderProps } from "../types";
+
 
 export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
   const navigate = useNavigate();

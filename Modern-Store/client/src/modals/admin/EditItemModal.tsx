@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { AdminEditItemSchemaType } from "../../lib/zod/adminEditItemSchema";
 import { adminEditItemSchema,  } from '../../lib/zod/adminEditItemSchema';
 import { useEffect } from "react";
-import type { AdminItemType } from "../../../types";
+import type { AdminItemType } from "../../types";
 
 
 export default function EditItemModal({editItemModalOpen, setEditItemModalOpen, setFetchAgain, selectedItem}: {editItemModalOpen: boolean, setEditItemModalOpen: React.Dispatch<React.SetStateAction<boolean>>, setFetchAgain: React.Dispatch<React.SetStateAction<boolean>>, selectedItem: AdminItemType | null}) {
