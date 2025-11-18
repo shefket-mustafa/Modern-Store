@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import type { AdminItemType, allUsersType } from "../../types";
 import AddItemModal from "../modals/admin/AddItemModal";
 import EditItemModal from "../modals/admin/EditItemModal";
+import { useUser } from "../hooks/useUser";
+import { useNavigate } from "react-router";
 
 export default function Admin() {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -14,6 +16,8 @@ export default function Admin() {
   const [addItemModalOpen, setAddItemModalOpen] = useState(false);
   const [editItemModalOpen, setEditItemModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<AdminItemType | null>(null);
+  const { user } = useUser();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAllItems = async () => {
@@ -32,7 +36,7 @@ export default function Admin() {
         const data = await res.json();
         const items = data?.items ?? [];
         setAllItems(items);
-      } catch  {
+      } catch {
         throw new Error("Authentication token not found. Please log in again.");
       }
     };
@@ -108,7 +112,7 @@ export default function Admin() {
       console.log(response);
 
       setAllUsers((prev) => prev.filter((users) => users._id !== id));
-    } catch{
+    } catch {
       // surface a friendly error in console and optionally UI
       throw new Error("Failed to delete item. Please try again.");
     }
@@ -137,6 +141,12 @@ export default function Admin() {
     };
     fetchAllUsers();
   }, [BASE_URL, token]);
+
+  if (!user) return <div>Loading...</div>;
+
+  if (user.role !== "admin") {
+    navigate("/");
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -208,27 +218,31 @@ export default function Admin() {
         </div>
 
         <div className={`${activityTab === "Items" ? "block" : "hidden"}`}>
-          {allItems.length === 0 ? (
-            <p className="text-gray-400">No items found.</p>
-          ) : (
-            <div className="overflow-x-auto overflow-y-auto max-h-96">
-              <table className="min-w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-orange-500 text-white">
-                    <th className="py-2 px-4 rounded-tl-lg">#</th>
-                    <th className="py-2 px-4">Name</th>
-                    <th className="py-2 px-4">Price</th>
-                    <th className="py-2 px-4  w-2">In Stock </th>
-                    <th
-                      onClick={() => setAddItemModalOpen(true)}
-                      className="py-2 px-4 text-lg rounded-tr-lg w-2 cursor-pointer hover:text-black active:bg-orange-600 transition"
-                    >
-                      +
-                    </th>
+          <div className="overflow-x-auto overflow-y-auto max-h-96">
+            <table className="min-w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-orange-500 text-white">
+                  <th className="py-2 px-4 rounded-tl-lg">#</th>
+                  <th className="py-2 px-4">Name</th>
+                  <th className="py-2 px-4">Price</th>
+                  <th className="py-2 px-4  w-2">In Stock </th>
+                  <th
+                    onClick={() => setAddItemModalOpen(true)}
+                    className="py-2 px-4 text-lg rounded-tr-lg w-2 cursor-pointer hover:text-black active:bg-orange-600 transition"
+                  >
+                    +
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {allItems.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="text-center py-4 text-gray-500">
+                      No items available
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {allItems.map((u, i) => (
+                ) : (
+                  allItems.map((u, i) => (
                     <tr
                       key={u._id}
                       className="odd:bg-gray-50 even:bg-white border-b hover:bg-orange-50 transition"
@@ -255,11 +269,11 @@ export default function Admin() {
                         </button>
                       </td>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </motion.div>
 

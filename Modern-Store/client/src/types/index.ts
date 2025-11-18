@@ -1,6 +1,6 @@
 // types.ts
 export type Category = 'all' | 'men' | 'women';
-export type Subcategory = 't-shirts' | 'shirts' | 'jeans' | 'sweatshirts' | 'sweatpants';
+export type Subcategory = 'tshirts' | 'shirts' | 'jeans' | 'sweatshirts' | 'sweatpants';
 export type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
 export interface Product {

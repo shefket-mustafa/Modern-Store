@@ -9,7 +9,7 @@ export const AdminItemSchema = new Schema({
     colors: { type: [String], required: true },
     category: { type: String,enum: ["men", "women"], required: true },
     subcategory: { type: String, 
-        enum:["t-shirts", "shirts", "jeans", "sweatshirts", "sweatpants"], 
+        enum:["tshirts", "shirts", "jeans", "sweatshirts", "sweatpants"], 
         required: true },
     imageUrl: { type: String, required: true },
     sizes: { type: [String], required: true },
