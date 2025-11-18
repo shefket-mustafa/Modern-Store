@@ -1,5 +1,14 @@
 import {z} from "zod";
 
+export const categories = ["men", "women"] as const;
+export type Category = typeof categories[number];
+
+export const subcategories = {
+  men: ["tshirts", "shirts", "jeans", "sweatshirts", "sweatpants"],
+  women: ["tshirts", "shirts", "jeans", "sweatshirts", "sweatpants"],
+} as const;
+
+
 export const adminAddItemSchema = z.object({
     name: z.string().min(1, "Name is required"),
     // accept strings like "45.5" or "45,5" and coerce to number
@@ -11,8 +20,21 @@ export const adminAddItemSchema = z.object({
         }
         return val;
     }, z.number().min(0, "Price must be at least 0")),
-    category: z.string().min(1, "Category is required"),
-    subcategory: z.string().min(1, "Subcategory is required"),
+    brand: z.string().min(2, "Brand is required"),
+      colors: z.preprocess((val) => {
+    if (typeof val === "string") {
+      return val
+        .split(",")
+        .map((c) => c.trim().toLowerCase())
+        .filter(Boolean);
+    }
+    return val;
+  }, z.array(z.string()).min(1, "At least one color is required")),
+    category: z.enum(categories),
+    subcategory: z.enum([
+  ...subcategories.men,
+  ...subcategories.women
+] as const),
     imageUrl: z.string().url("Invalid image URL"),
     description: z.string().min(1, "Description is required"),
     // allow comma-separated string in the form and coerce to string[]
@@ -29,6 +51,12 @@ export const adminAddItemSchema = z.object({
         }
         return val;
     }, z.number().min(1, "In Stock must be at least 1")),
-})
+}) .refine(
+    (data) => subcategories[data.category].includes(data.subcategory ),
+    {
+      message: "Invalid subcategory for the selected category.",
+      path: ["subcategory"],
+    }
+  );
 
 export type AdminAddItemSchemaType = z.infer<typeof adminAddItemSchema>;

@@ -32,18 +32,18 @@ export const Footer = () => {
             </li>
             <li>
               <Link
-                to="/shop/men"
-                className="opacity-80 hover:opacity-100 hover:font-bold hover:text-accent transition-all"
-              >
-                Men
-              </Link>
-            </li>
-            <li>
-              <Link
                 to="/shop/women"
                 className="opacity-80 hover:opacity-100 hover:font-bold hover:text-accent transition-all"
               >
                 Women
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/shop/men"
+                className="opacity-80 hover:opacity-100 hover:font-bold hover:text-accent transition-all"
+              >
+                Men
               </Link>
             </li>
             <li>

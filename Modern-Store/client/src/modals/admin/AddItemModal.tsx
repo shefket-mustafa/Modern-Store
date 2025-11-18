@@ -1,21 +1,31 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { adminAddItemSchema, type AdminAddItemSchemaType } from "../../lib/zod/adminAddItemSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import {
+  adminAddItemSchema,
+  type AdminAddItemSchemaType,
+  categories,
+  subcategories,
+} from "../../lib/zod/adminAddItemSchema";
 
 export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setFetchAgain}: {addItemModalOpen: boolean, setAddItemModalOpen: React.Dispatch<React.SetStateAction<boolean>>, setFetchAgain: React.Dispatch<React.SetStateAction<boolean>>}) {
     const BASE_URL = import.meta.env.VITE_BASE_URL;
     const token = localStorage.getItem('token');
+    
    
     const {
         register,
         handleSubmit,
         reset,
+        watch,
         setError,
         formState: {errors, isSubmitting}
     
     } = useForm<AdminAddItemSchemaType>({resolver: zodResolver(adminAddItemSchema)})
+
+    const selectedCategory = watch("category");
+     const availableSubcategories =
+    selectedCategory ? subcategories[selectedCategory] : [];
 
     const handleAddItem = async (data: AdminAddItemSchemaType) => {
         try {
@@ -25,6 +35,7 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setF
                     'Content-Type': 'application/json',
                     "Authorization":  `Bearer ${token}`
                 },
+                
                 body: JSON.stringify(data),
             });
 
@@ -37,8 +48,12 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setF
             setFetchAgain(true);
             // Close the modal on success
             setAddItemModalOpen(false);
-        } catch (error: any) {
+        } catch (error: unknown) {
+          if(error instanceof Error) {
             setError('root', { type: 'server', message: error.message });
+          } else {
+            setError('root', { type: 'server', message: 'An unknown error occurred' });
+          }
         }
     }
 
@@ -97,19 +112,60 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setF
                 )}
                 <input
                   type="text"
-                  placeholder="Category"
+                  inputMode="decimal"
+                  placeholder="Brand"
                   className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none"
-                {...register("category")}
+                {...register("brand")}
                 />
-                {errors.category && (
-                    <p className="text-red-500 text-sm">{errors.category.message}</p>
+                {errors.brand && (
+                    <p className="text-red-500 text-sm">{errors.brand.message}</p>
                 )}
                 <input
                   type="text"
-                  placeholder="Subcategory"
+                  inputMode="decimal"
+                  placeholder="Colors"
                   className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none"
-                {...register("subcategory")}
+                {...register("colors")}
                 />
+                {errors.colors && (
+                    <p className="text-red-500 text-sm">{errors.colors.message}</p>
+                )}
+                {/* Category select */}
+                <select
+                  className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none"
+                  defaultValue=""
+                  {...register("category")}
+                >
+                  <option value="" disabled>
+                    Select category
+                  </option>
+                  {categories.map((cat) => (
+                    <option key={cat} value={cat}>
+                      {cat[0].toLowerCase() + cat.slice(1)}
+                    </option>
+                  ))}
+                </select>
+                {errors.category && (
+                    <p className="text-red-500 text-sm">{errors.category.message}</p>
+                )}
+             {/* Subcategory select (depends on category) */}
+                <select
+                  className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 outline-none"
+                  defaultValue=""
+                  {...register("subcategory")}
+                  disabled={!selectedCategory}
+                >
+                  <option value="" disabled>
+                    {selectedCategory
+                      ? "Select subcategory"
+                      : "Select category first"}
+                  </option>
+                  {availableSubcategories.map((sub) => (
+                    <option key={sub} value={sub}>
+                      {sub[0].toLowerCase() + sub.slice(1)}
+                    </option>
+                  ))}
+                </select>
                 {errors.subcategory && (
                     <p className="text-red-500 text-sm">{errors.subcategory.message}</p>
                 )}

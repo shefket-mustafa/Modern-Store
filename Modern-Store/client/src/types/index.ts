@@ -1,12 +1,14 @@
 // types.ts
 export type Category = 'all' | 'men' | 'women';
-export type Subcategory = 't-shirts' | 'shirts' | 'jeans' | 'sweatshirts' | 'sweatpants';
+export type Subcategory = 'tshirts' | 'shirts' | 'jeans' | 'sweatshirts' | 'sweatpants';
 export type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
 export interface Product {
   _id: string;
   name: string;
   price: number;
+  brand: string;
+  colors: string[];
   category: Exclude<Category, 'all'>; // only 'men' | 'women'
   subcategory: Subcategory;
   imageUrl: string;
@@ -24,6 +26,8 @@ export interface CartItem {
 export interface FilterState {
   category: Category;
   subcategory?: Subcategory | null; 
+  brands: string[];
+  colors: string[];
 }
 
 export interface ShopProps {
@@ -37,5 +41,14 @@ export type ShopContextType = {
     shopTitle: string;
     setShopTitle: React.Dispatch<React.SetStateAction<ShopTitleTypes>>;
 }
+
+export type SortOption =
+  | "price-asc"
+  | "price-desc"
+  | "name-asc"
+  | "name-desc"
+  | null;
+
+  
 
 export type ShopTitleTypes = "All Products" | "Men's Collection" | "Women's Collection";

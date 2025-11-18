@@ -8,7 +8,7 @@ interface CategoryFilterProps {
 
 const subcategories = [
   {
-    value: "t-shirts",
+    value: "tshirts",
     label: "T-Shirts",
     imageUrl:
       "https://timshop.timhortons.ca/cdn/shop/files/retro-logo-tshirt-back-1000px.png?v=1750349029&width=1000",

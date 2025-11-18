@@ -1,8 +1,8 @@
-import { createContext, useContext, useState } from "react";
-import type { FilterState, ShopContextType, ShopTitleTypes } from "../types";
+import { useState } from "react";
+import type { FilterState, ShopTitleTypes } from "../types";
+import { ShopContext } from "../hooks/use-shop-context";
 
 
-const ShopContext = createContext<ShopContextType | undefined>(undefined);
 
 
 export const ShopProvider = ({ children }: { children: React.ReactNode }) => {
@@ -10,11 +10,13 @@ export const ShopProvider = ({ children }: { children: React.ReactNode }) => {
       const [filters, setFilters] = useState<FilterState>({
         category: "all",
         subcategory: null,
+          brands: [],
+  colors: []
       });
       const [shopTitle, setShopTitle] = useState<ShopTitleTypes>("All Products");
 
         const resetFilters = () => {
-    setFilters({ category: "all", subcategory: null });
+    setFilters({ category: "all", subcategory: null ,  brands:[], colors:[], });
   };
 
       
@@ -25,10 +27,3 @@ export const ShopProvider = ({ children }: { children: React.ReactNode }) => {
   );
 }
 
-export const useShop = () => {
-    const context = useContext(ShopContext);
-    if(!context){
-        throw new Error("useShop must be used within a ShopProvider");
-    }
-    return context
-}
