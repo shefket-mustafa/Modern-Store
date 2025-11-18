@@ -7,6 +7,8 @@ export interface Product {
   _id: string;
   name: string;
   price: number;
+  brand: string;
+  colors: string[];
   category: Exclude<Category, 'all'>; // only 'men' | 'women'
   subcategory: Subcategory;
   imageUrl: string;
@@ -24,6 +26,8 @@ export interface CartItem {
 export interface FilterState {
   category: Category;
   subcategory?: Subcategory | null; 
+  brands: string[];
+  colors: string[];
 }
 
 export interface ShopProps {

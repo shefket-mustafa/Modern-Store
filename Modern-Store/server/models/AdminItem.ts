@@ -5,6 +5,8 @@ export const AdminItemSchema = new Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },
+    brand: {type: String, required: true },
+    colors: { type: [String], required: true },
     category: { type: String,enum: ["men", "women"], required: true },
     subcategory: { type: String, 
         enum:["t-shirts", "shirts", "jeans", "sweatshirts", "sweatpants"], 

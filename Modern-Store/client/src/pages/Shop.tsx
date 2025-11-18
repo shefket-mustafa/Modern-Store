@@ -2,10 +2,11 @@ import { CategoryFilter } from "../components/CategoryFilter";
 import { ProductCard } from "../components/ProductCard";
 import { filterProducts } from "../helpers/filterProducts";
 import type { Product, ShopProps, ShopTitleTypes } from "../types";
-import { useShop } from "../context/ShopContext";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import {ArrowDownUp, SlidersHorizontal} from "lucide-react"
+import { useShop } from "../hooks/use-shop-context";
+import { SlidersHorizontal } from "lucide-react";
+
 
 
 
@@ -15,10 +16,13 @@ export const Shop = ({ onAddToCart }: ShopProps) => {
   const { filters, setFilters, setShopTitle } = useShop();
   const pathname = useLocation().pathname;  
   const [products, setProducts] = useState<Product[]>([]);
-
+  // const [sortBy, setSortBy] = useState<"price-asc" | "price-desc" | "name-asc" | "name-desc">("price-asc");
+  const [filterOpen, setFilterOpen] = useState(false);
   const segments = pathname.split("/").filter(Boolean); // removes empty parts
     const category = segments[1]; // e.g. "men" or "women"
     const subcategory = segments[2]; // e.g. "tshirts"
+    const availableBrands = Array.from(new Set(products.map((p) => p.brand)));
+    const availableColors = Array.from(new Set(products.flatMap((p) => p.colors)));
 
 useEffect(() => {
   const formatTitle = () => {
@@ -75,6 +79,24 @@ useEffect(() => {
     return () => controller.abort()
     
   },[category, subcategory, BASE_URL])
+
+  const toggleBrandFilter = (brand: string) => {
+  setFilters((prev) => ({
+    ...prev,
+    brands: prev.brands.includes(brand)
+      ? prev.brands.filter((b) => b !== brand)
+      : [...prev.brands, brand],
+  }));
+};
+
+const toggleColorFilter = (color: string) => {
+  setFilters((prev) => ({
+    ...prev,
+    colors: prev.colors.includes(color)
+      ? prev.colors.filter((c) => c !== color)
+      : [...prev.colors, color],
+  }));
+};
   
   
 
@@ -103,23 +125,99 @@ useEffect(() => {
 
   {/* Right section — sort & filter */}
   <div className="flex items-center gap-3 text-sm">
-    <div className="flex gap-1 border rounded-md px-3 py-1.5 hover:bg-muted transition cursor-pointer">
-    <button>
-    <ArrowDownUp className="w-4 h-4 cursor-pointer"/> 
-    </button>
+    <button
+  onClick={() => setFilterOpen(true)}
+  className="flex items-center gap-2 border rounded-md cursor-pointer px-2 py-1.5 hover:bg-muted transition"
+>
+  <SlidersHorizontal className="w-4 h-4 " />
+</button>
+  {filterOpen && (
+    <div
+      className="fixed inset-0 bg-black/40 z-50 flex justify-end"
+      onClick={() => setFilterOpen(false)}
+    >
+      <div
+        className="w-80 bg-white h-full p-4 shadow-lg transition-transform flex flex-col"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="font-semibold text-lg">Sort & Filter</h2>
+          <button
+            onClick={() => setFilterOpen(false)}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            ✕
+          </button>
+        </div>
 
-    <p>Sort</p>
+        {/* --- Sort Section --- */}
+        <div className="border-b border-gray-200 pb-3 mb-3">
+          <h3 className="font-medium mb-2">Sort by</h3>
+          <div className="flex flex-col gap-2">
+            <button className="text-left hover:text-primary transition">
+              Price: Low to High
+            </button>
+            <button className="text-left hover:text-primary transition">
+              Price: High to Low
+            </button>
+            <button className="text-left hover:text-primary transition">
+              Name: A → Z
+            </button>
+            <button className="text-left hover:text-primary transition">
+              Name: Z → A
+            </button>
+          </div>
+        </div>
 
-    </div >
+        {/* --- Filter Section --- */}
+        <div className="flex-1 overflow-auto">
+          <h3 className="font-medium mb-2">Filter by</h3>
 
-    <div className="flex gap-1 border rounded-md px-3 py-1.5 hover:bg-muted transition cursor-pointer">
+          <div className="space-y-4">
+            {/* Example Filter: Brand */}
+            <div>
+              <h4 className="text-sm font-semibold mb-1">Brand</h4>
+              <div className="flex flex-col gap-1">
+                {availableBrands.length === 0 ? "No brands available" :availableBrands.map((brand) => (
+  <label key={brand} className="flex items-center gap-2">
+    <input 
+      type="checkbox"
+      checked={filters.brands?.includes(brand)}
+      onChange={() => toggleBrandFilter(brand)}
+    />
+    {brand}
+  </label>
+))}
+              </div>
+            </div>
 
-    <button className="">
-    <SlidersHorizontal className="w-4 h-4" />
-    </button>
-  
-      Filter
+            {/* Example Filter: Color */}
+            <div>
+              <div className="flex flex-wrap gap-2">
+                <div>
+  <h4 className="text-sm font-semibold mb-1">Color</h4>
+  <div className="flex flex-wrap gap-2">
+    {availableColors.length === 0 ? "No available colors" : availableColors.map((color) => (
+      <button
+        key={color}
+        onClick={() => toggleColorFilter(color)}
+        className={`w-6 h-6 rounded-full border 
+          ${filters.colors.includes(color) ? "ring-2 ring-black" : ""}
+          bg-[${color}]`} 
+        aria-label={color}
+      />
+    ))}
+  </div>
+</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  )}
+
   </div>
 </div>
 

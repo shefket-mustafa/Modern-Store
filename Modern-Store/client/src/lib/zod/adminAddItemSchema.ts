@@ -11,6 +11,16 @@ export const adminAddItemSchema = z.object({
         }
         return val;
     }, z.number().min(0, "Price must be at least 0")),
+    brand: z.string().min(2, "Brand is required"),
+      colors: z.preprocess((val) => {
+    if (typeof val === "string") {
+      return val
+        .split(",")
+        .map((c) => c.trim().toLowerCase())
+        .filter(Boolean);
+    }
+    return val;
+  }, z.array(z.string()).min(1, "At least one color is required")),
     category: z.string().min(1, "Category is required"),
     subcategory: z.string().min(1, "Subcategory is required"),
     imageUrl: z.string().url("Invalid image URL"),
