@@ -32,12 +32,12 @@ export default function Admin() {
         const data = await res.json();
         const items = data?.items ?? [];
         setAllItems(items);
-      } catch (err) {
+      } catch  {
         throw new Error("Authentication token not found. Please log in again.");
       }
     };
     fetchAllItems();
-  }, []);
+  }, [BASE_URL, token]);
 
   useEffect(() => {
     if (fetchAgain) {
@@ -58,7 +58,7 @@ export default function Admin() {
           const items = data?.items ?? [];
           setAllItems(items);
           setFetchAgain(false);
-        } catch (err) {
+        } catch {
           throw new Error(
             "Authentication token not found. Please log in again."
           );
@@ -66,7 +66,7 @@ export default function Admin() {
       };
       fetchAllItems();
     }
-  }, [fetchAgain]);
+  }, [fetchAgain, BASE_URL, token]);
 
   const deleteItemsHandler = async (id: string) => {
     try {
@@ -83,7 +83,7 @@ export default function Admin() {
         throw new Error(text || "Failed to delete item.");
       }
 
-      setAllUsers((prev) => prev.filter((user) => user._id !== id));
+      setAllItems((prev) => prev.filter((item) => item._id !== id));
     } catch (err) {
       // surface a friendly error in console and optionally UI
       console.error(err);
@@ -108,9 +108,8 @@ export default function Admin() {
       console.log(response);
 
       setAllUsers((prev) => prev.filter((users) => users._id !== id));
-    } catch (err) {
+    } catch{
       // surface a friendly error in console and optionally UI
-      console.error(err);
       throw new Error("Failed to delete item. Please try again.");
     }
   };
@@ -132,12 +131,12 @@ export default function Admin() {
         const data = await res.json();
         const users = data?.users ?? [];
         setAllUsers(users);
-      } catch (err) {
+      } catch {
         throw new Error("Authentication token not found. Please log in again.");
       }
     };
     fetchAllUsers();
-  }, []);
+  }, [BASE_URL, token]);
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
