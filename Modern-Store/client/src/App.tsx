@@ -18,6 +18,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Admin from "./pages/Admin";
 import { useCartStore } from "./zustand-store/cart-store";
+import type { CartItem } from "./types";
 
 const queryClient = new QueryClient();
 
@@ -51,7 +52,7 @@ const App = () => {
           <div className="min-h-screen bg-background flex flex-col">
             <Header
               cartItemsCount={cartItems.reduce(
-                (sum, item) => sum + item.quantity,
+                (sum: number, item: CartItem) => sum + item.quantity,
                 0
               )}
               onCartClick={() => setIsCartOpen(true)}

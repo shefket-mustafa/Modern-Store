@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import type { AdminItemType, allUsersType } from "../../types";
 import AddItemModal from "../modals/admin/AddItemModal";
 import EditItemModal from "../modals/admin/EditItemModal";
 import { useUser } from "../hooks/useUser";
 import { useNavigate } from "react-router";
+import type { AdminItemType, allUsersType } from "../../types";
 
 export default function Admin() {
   const BASE_URL = import.meta.env.VITE_BASE_URL;

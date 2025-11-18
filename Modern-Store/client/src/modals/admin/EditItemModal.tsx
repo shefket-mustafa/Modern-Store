@@ -3,8 +3,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { AdminEditItemSchemaType } from "../../lib/zod/adminEditItemSchema";
 import { adminEditItemSchema,  } from '../../lib/zod/adminEditItemSchema';
-import type { AdminItemType } from "../../../types";
 import { useEffect } from "react";
+import type { AdminItemType } from "../../../types";
 
 
 export default function EditItemModal({editItemModalOpen, setEditItemModalOpen, setFetchAgain, selectedItem}: {editItemModalOpen: boolean, setEditItemModalOpen: React.Dispatch<React.SetStateAction<boolean>>, setFetchAgain: React.Dispatch<React.SetStateAction<boolean>>, selectedItem: AdminItemType | null}) {
@@ -57,10 +57,14 @@ export default function EditItemModal({editItemModalOpen, setEditItemModalOpen, 
             setFetchAgain(true);
             // Close the modal on success
             setEditItemModalOpen(false);
-        } catch (error: any) {
+        } catch (error: unknown) {
+          if(error instanceof Error) {
             setError('root', { type: 'server', message: error.message });
+        } else {
+            setError('root', { type: 'server', message: 'An unknown error occurred' });
         }
     }
+  }
 
   
   return (

@@ -18,9 +18,22 @@ export interface Product {
 }
 
 export interface CartItem {
-  product: Product;
-  size: Size;
+  product: {
+    _id: string;
+    name: string;
+    price: number;
+    imageUrl: string;
+  };
+  size: string;
   quantity: number;
+}
+export interface CartState {
+  items: CartItem[];
+
+  addItem: (product: CartItem["product"], size: string, qty: number) => void;
+  removeItem: (productId: string, size: string) => void;
+  updateQty: (productId: string, size: string, qty: number) => void;
+  clear: () => void;
 }
 
 export interface FilterState {
