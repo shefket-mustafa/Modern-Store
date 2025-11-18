@@ -18,15 +18,10 @@ Includes full product management, shopping features, admin tools, dynamic filter
 - Smart automatic titles based on category/subcategory
 - Live product count
 
-### 🔎 Advanced Filtering
+### 🔎  Filtering
 Users can filter products by:
 - **Brand**
 - **Color**
-
-Filtering includes:
-- Multi-select
-- Unique values (automatically deduplicated)
-- Works seamlessly with sorting
 
 ### ↕️ Sorting
 Sort products by:
@@ -37,57 +32,62 @@ Sort products by:
 
 Sorting + filtering combined produces clean UX behavior.
 
----
+## 🛒 Cart System 
 
-## 🧪 Core Logic (Frontend)
+The project uses **Zustand** (practicing) to handle cart logic:
 
-### 🧩 Helper Functions
-- **`filterProducts.ts`** → applies filtering logic  
-- **`sortProducts.ts`** → applies sorting logic  
-- Processing order: *filter → sort → render*
+### Cart Features
+- Add items to cart  
+- Remove items  
+- Update quantities  
+- Persistent cart state during navigation  
+- Cart drawer UI
 
-### 🧠 State Management
-- Custom **Shop Context** (`useShop`)
-- Stores:
-  - Filters
-  - Sort mode
-  - Shop title
-  - Drawer / UI state
-
-### 🎨 UI / UX
-- Built with **TailwindCSS**
-- Animations with **Framer Motion**
-- Mobile sliding drawer for filters
-- Responsive product grid
-- Clean, minimal interface
 
 ---
 
-## 🔐 Admin Panel
+## 🛠️ Tech Stack
 
-Admins can:
-- Add products  
-- Edit products  
-- Delete products  
-- Manage users  
+### Frontend
+- React 18
+- TypeScript
+- React Router v7
+- TailwindCSS
+- ContextAPI
+- Zustand
+- React Hook Form
+- Zod
 
-### Admin Item Creation (Frontend + Backend)
-Each product supports:
-- **name**
-- **price**
-- **brand**
-- **colors** (comma-separated → array)
-- **category** (men/women)
-- **subcategory** (validated based on category)
-- **imageUrl**
-- **description**
-- **sizes** (comma-separated → array)
-- **stockQuantity**
+### Backend
+- Node.js
+- Express
+- MongoDB (Mongoose)
+- JWT Auth
+- Bcrypt
 
-### Zod Schema Validation
-- Full validation of admin input
-- Category/subcategory relation validated with `refine`
-- Automatic coercion of numbers, arrays, colors, etc.
+---
+
+## 🔐 Test Accounts
+
+### 👤 Regular User
+- **Email:** test@abv.bg  
+- **Password:** 123456  
+
+### 🛠️ Admin User
+- **Email:** admin@abv.bg  
+- **Password:** 123456  
+
+Use these accounts to test login, restricted routes, and admin item management.
+
+---
+
+## 🔒 Admin Panel
+
+### Admin can:
+- Add items  
+- Edit items  
+- Delete items  
+- View users  
 
 ---
 
@@ -112,24 +112,44 @@ Each product supports:
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 How to Run the Project
 
-### Frontend
-- React 18
-- TypeScript
-- React Router v7
-- TailwindCSS
-- Framer Motion
-- React Hook Form
-- Zod
+### 1. Clone the repo
 
-### Backend
-- Node.js
-- Express
-- MongoDB (Mongoose)
-- JWT Auth
+```sh
+git clone git@github.com:shefket-mustafa/Modern-Store.git
+```
+
+### 2. Locate the project
+
+```sh
+cd Modern-Store
+```
+
+
+### 3. Install dependencies in both client and server folders and start
+
+```sh
+cd client 
+npm install
+npm run dev
+
+cd server
+ npm install
+npm run dev
+```
+The App should be running now!
 
 ---
 
-## 📂 Project Structure
+
+## 🎯 Future Improvements
+- Search bar
+- Price range filter
+- Pagination
+- Wishlist / favorites
+- Ratings & reviews
+- Order system + checkout
+
+---
 
