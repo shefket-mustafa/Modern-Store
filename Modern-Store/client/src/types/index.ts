@@ -42,4 +42,13 @@ export type ShopContextType = {
     setShopTitle: React.Dispatch<React.SetStateAction<ShopTitleTypes>>;
 }
 
+export type SortOption =
+  | "price-asc"
+  | "price-desc"
+  | "name-asc"
+  | "name-desc"
+  | null;
+
+  
+
 export type ShopTitleTypes = "All Products" | "Men's Collection" | "Women's Collection";
