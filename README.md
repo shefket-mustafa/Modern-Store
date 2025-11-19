@@ -71,3 +71,19 @@ Modern Store is a full-featured e-commerce web application built with **React, T
 This project is for learning & portfolio purposes. Free to use.
 
 ---
+
+## 🚀 Future Improvements
+
+Planned upgrades and enhancements for the project:
+
+- **Inventory Management** – Auto-update stock levels and prevent purchasing out-of-stock items.
+- **Product Reviews & Ratings** – Allow customers to leave feedback and rate products.
+- **Wishlist / Favorites** – Let users save products for later.
+- **Enhanced Search** – Add fuzzy search, price ranges, and multi-field matching.
+- **Pagination & Infinite Scroll** – Improve performance for large product catalogs.
+- **Image Upload Support** – Integration with Cloudinary or UploadThing for product images.
+- **Delivery Options & Address Book** – Save multiple shipping addresses for users.
+- **Serverless Email Notifications** – Order confirmation & password reset flows.
+- **Kids section
+
+---
