@@ -174,9 +174,10 @@ export const Shop = ({ onAddToCart }: ShopProps) => {
 
         {/* --- Products --- */}
         <main className="md:col-span-3">
-          <div className="flex items-center justify-between gap-4 mb-6">
+          <div className="mb-8 space-y-4">
             {/* Left section — title & product count */}
-            <div className="flex flex-col">
+
+            <div >
               <h1 className="text-3xl font-bold mb-1">
                 {useShop().shopTitle}{" "}
               </h1>
@@ -185,8 +186,11 @@ export const Shop = ({ onAddToCart }: ShopProps) => {
                 {filteredProducts.length === 1 ? "product" : "products"}
               </p>
               <div />
+
             </div>
 
+            {/* Right section — sort & filter */}
+            <div className="flex items-center gap-3 text-sm">
             <input
               type="text"
               placeholder="Search by name, brand, color..."
@@ -195,8 +199,6 @@ export const Shop = ({ onAddToCart }: ShopProps) => {
                onChange={(e) => setSearchQuery(e.target.value)}
             />
 
-            {/* Right section — sort & filter */}
-            <div className="flex items-center gap-3 text-sm">
               <button
                 onClick={() => setFilterOpen(true)}
                 className="flex items-center gap-2 border rounded-md cursor-pointer px-2 py-1.5 hover:bg-muted transition"
