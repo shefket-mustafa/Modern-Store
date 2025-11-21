@@ -49,27 +49,21 @@ export default function About(){
           <h2 className="text-4xl font-bold text-center mb-12">Our Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="w-16 h-16 bg-accent text-accent-foreground rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
-                Q
-              </div>
+              
               <h3 className="text-2xl font-bold mb-3">Quality First</h3>
               <p className="text-muted-foreground">
                 Every piece is crafted with meticulous attention to detail, using only the finest materials.
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-accent text-accent-foreground rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
-                S
-              </div>
+             
               <h3 className="text-2xl font-bold mb-3">Sustainable</h3>
               <p className="text-muted-foreground">
                 We're committed to sustainable practices and ethical manufacturing processes.
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-accent text-accent-foreground rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
-                I
-              </div>
+              
               <h3 className="text-2xl font-bold mb-3">Innovative</h3>
               <p className="text-muted-foreground">
                 Constantly evolving, we blend classic styles with modern trends to create unique pieces.
@@ -88,11 +82,11 @@ export default function About(){
           </p>
           <div className="flex flex-col md:flex-row gap-4 justify-center">
             <a href="mailto:contact@modernstore.com" className="text-lg hover:text-accent transition-colors">
-              contact@modernstore.com
+              shefket.must@gmail.com
             </a>
             <span className="hidden md:inline">•</span>
             <a href="tel:+1234567890" className="text-lg hover:text-accent transition-colors">
-              +1 (234) 567-890
+              +359 89 422 9461
             </a>
           </div>
         </div>
