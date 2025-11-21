@@ -7,6 +7,7 @@ import {
   categories,
   subcategories,
 } from "../../lib/zod/adminAddItemSchema";
+import type { Subcategory } from "../../types";
 
 export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setFetchAgain}: {addItemModalOpen: boolean, setAddItemModalOpen: React.Dispatch<React.SetStateAction<boolean>>, setFetchAgain: React.Dispatch<React.SetStateAction<boolean>>}) {
     const BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -160,7 +161,7 @@ export default function AddItemModal({addItemModalOpen,setAddItemModalOpen, setF
                       ? "Select subcategory"
                       : "Select category first"}
                   </option>
-                  {availableSubcategories.map((sub) => (
+                  {availableSubcategories.map((sub: Subcategory) => (
                     <option key={sub} value={sub}>
                       {sub[0].toLowerCase() + sub.slice(1)}
                     </option>

@@ -1,11 +1,12 @@
 import {z} from "zod";
 
-export const categories = ["men", "women"] as const;
+export const categories = ["men", "women", "kids"] as const;
 export type Category = typeof categories[number];
 
 export const subcategories = {
   men: ["tshirts", "shirts", "jeans", "sweatshirts", "sweatpants"],
   women: ["tshirts", "shirts", "jeans", "sweatshirts", "sweatpants"],
+  kids: ["tshirts", "shirts", "jeans", "sweatshirts", "sweatpants"],
 } as const;
 
 
@@ -33,7 +34,8 @@ export const adminAddItemSchema = z.object({
     category: z.enum(categories),
     subcategory: z.enum([
   ...subcategories.men,
-  ...subcategories.women
+  ...subcategories.women,
+  ...subcategories.kids
 ] as const),
     imageUrl: z.string().url("Invalid image URL"),
     description: z.string().min(1, "Description is required"),
@@ -52,11 +54,12 @@ export const adminAddItemSchema = z.object({
         return val;
     }, z.number().min(1, "In Stock must be at least 1")),
 }) .refine(
-    (data) => subcategories[data.category].includes(data.subcategory ),
-    {
-      message: "Invalid subcategory for the selected category.",
-      path: ["subcategory"],
-    }
-  );
+  (data) => subcategories[data.category].includes(data.subcategory),
+  {
+    message: "Invalid subcategory for selected category",
+    path: ["subcategory"]
+  }
+)
+
 
 export type AdminAddItemSchemaType = z.infer<typeof adminAddItemSchema>;

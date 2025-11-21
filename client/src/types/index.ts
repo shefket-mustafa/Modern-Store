@@ -1,5 +1,6 @@
 // types.ts
-export type Category = 'all' | 'men' | 'women';
+export type Category = | "all" | 'men' | 'women' | 'kids';
+export type AdminCategory = | 'men' | 'women' | 'kids';
 export type Subcategory = 'tshirts' | 'shirts' | 'jeans' | 'sweatshirts' | 'sweatpants';
 export type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
@@ -9,7 +10,7 @@ export interface Product {
   price: number;
   brand: string;
   colors: string[];
-  category: Exclude<Category, 'all'>; // only 'men' | 'women'
+  category: Exclude<Category, 'all'>; 
   subcategory: Subcategory;
   imageUrl: string;
   description: string;
@@ -107,8 +108,6 @@ export type AdminItemType = {
 // }
 
 
-
-
 export type allUsersType = {
   _id: string;
   username: string;
@@ -117,4 +116,4 @@ export type allUsersType = {
 
   
 
-export type ShopTitleTypes = "All Products" | "Men's Collection" | "Women's Collection";
+export type ShopTitleTypes = "All Products" | "Men's Collection" | "Women's Collection" | "Kids' Collection" | string;
