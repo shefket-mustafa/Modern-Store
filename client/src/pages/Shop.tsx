@@ -112,7 +112,7 @@ export const Shop = ({ onAddToCart }: ShopProps) => {
         {/* --- Sidebar --- */}
         <aside className="md:col-span-1">
           <div className="sticky top-24">
-            <CategoryFilter filters={filters} onFilterChange={setFilters} />
+            <CategoryFilter filters={filters} currentCategory={category || 'all'} onFilterChange={setFilters} />
           </div>
         </aside>
 

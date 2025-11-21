@@ -70,6 +70,10 @@ const App = () => {
                 path="/shop/:category"
                 element={<Shop onAddToCart={handleAddToCart} />}
               />
+              <Route
+                path="/shop/:category/:subcategory"
+                element={<Shop onAddToCart={handleAddToCart} />}
+              />
               <Route path="/about" element={<About />} />
               <Route
                 path="/product/:id"

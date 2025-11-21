@@ -14,32 +14,10 @@ adminRoutes.post(
   adminMiddleware,
   async (req: Request, res: Response) => {
     try {
-      const {
-        name,
-        price,
-        brand,
-        colors,
-        category,
-        subcategory,
-        imageUrl,
-        description,
-        sizes,
-        stockQuantity,
-      } = req.body;
+     if (req.body.category) req.body.category = req.body.category.trim().toLowerCase();
+      if (req.body.subcategory) req.body.subcategory = req.body.subcategory.trim().toLowerCase();
 
-      const savedItem = await AdminItemModel.create({
-        name,
-        price,
-        brand,
-        colors,
-        category,
-        subcategory,
-        imageUrl,
-        description,
-        sizes,
-        stockQuantity,
-      });
-
+       const savedItem = await AdminItemModel.create(req.body);
       return res
         .status(201)
         .json({ message: "Item added successfully", item: savedItem });

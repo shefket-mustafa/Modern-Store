@@ -1,7 +1,8 @@
-import type { FilterState, Subcategory } from "../types";
-import clsx from "clsx";
+import { Link } from "react-router";
+import type { FilterState } from "../types";
 
 interface CategoryFilterProps {
+  currentCategory?: string;
   filters: FilterState;
   onFilterChange: (filters: FilterState) => void;
 }
@@ -39,48 +40,30 @@ const subcategories = [
   },
 ];
 
-export const CategoryFilter = ({ filters, onFilterChange }: CategoryFilterProps) => {
+export const CategoryFilter = ({ currentCategory }: CategoryFilterProps) => {
   
-  return (
+  
+    return (
     <div className="space-y-6">
-      {/* Category Buttons */}
       <div className="flex flex-col justify-center items-center gap-4">
-        {subcategories.map((sub) => {
-          const isActive = filters.subcategory === sub.value;
-          return (
-            <div key={sub.value} className="flex flex-col items-center gap-2">
-              <button
-                onClick={() =>
-                  onFilterChange({
-                    ...filters,
-                    subcategory:
-                      filters.subcategory === sub.value ? null : (sub.value as Subcategory),
-                  })
-                }
-                className={clsx(
-                  "w-20 h-20 rounded-full overflow-hidden border-2 transition-all duration-200 cursor-pointer",
-                  isActive
-                    ? "border-black scale-110 shadow-md"
-                    : "border-gray-300 hover:scale-105 hover:border-gray-400"
-                )}
-              >
-                <img
-                  src={sub.imageUrl}
-                  alt={sub.label}
-                  className="w-full h-full object-cover"
-                />
-              </button>
-              <span
-                className={clsx(
-                  "text-sm font-medium transition-colors",
-                  isActive ? "text-black" : "text-gray-500"
-                )}
-              >
-                {sub.label}
-              </span>
-            </div>
-          );
-        })}
+        {subcategories.map((sub) => (
+          <div key={sub.value} className="flex flex-col items-center gap-2">
+            <Link
+              to={`/shop/${currentCategory}/${sub.value}`}
+              className="w-20 h-20 rounded-full overflow-hidden border-2 transition-all duration-200 cursor-pointer hover:scale-105"
+            >
+              <img
+                src={sub.imageUrl}
+                alt={sub.label}
+                className="w-full h-full object-cover"
+              />
+            </Link>
+
+            <span className="text-sm font-medium text-gray-700">
+              {sub.label}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );

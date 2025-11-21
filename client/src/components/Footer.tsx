@@ -46,6 +46,14 @@ export const Footer = () => {
                 Men
               </Link>
             </li>
+             <li>
+              <Link
+                to="/shop/kids"
+                className="opacity-80 hover:opacity-100 hover:font-bold hover:text-accent transition-all"
+              >
+                Kids
+              </Link>
+            </li>
             <li>
               <Link
                 to="/about"
