@@ -40,7 +40,7 @@ export const Landing = ({ onAddToCart }: LandingProps) => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden px-4">
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
@@ -48,8 +48,8 @@ export const Landing = ({ onAddToCart }: LandingProps) => {
             filter: 'brightness(0.7)',
           }}
         />
-        <div className="relative z-10 text-center text-white px-4">
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 tracking-tight">
+        <div className="relative z-10 text-center text-white w-full max-w-[500px] mx-auto px-4 sm:px-6">
+          <h1 className="text-5xl md:text-8xl font-bold mb-6 tracking-tight">
             MODERN<span className="text-accent text-orange-500">STORE</span>
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto font-light">

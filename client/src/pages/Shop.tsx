@@ -1,7 +1,7 @@
 import { CategoryFilter } from "../components/CategoryFilter";
 import { ProductCard } from "../components/ProductCard";
 import { filterProducts } from "../helpers/filterProducts";
-import type { Product, ShopProps, ShopTitleTypes, SortOption } from "../types";
+import type { Product, ShopProps, ShopTitleTypes, SortOption, Subcategory } from "../types";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { useShop } from "../hooks/use-shop-context";
@@ -128,11 +128,30 @@ useEffect(() => {
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* --- Sidebar --- */}
-        <aside className="md:col-span-1">
+        <aside className="hidden md:block md:col-span-1">
           <div className="sticky top-24">
             <CategoryFilter filters={filters} currentCategory={category || 'all'} onFilterChange={setFilters} />
           </div>
         </aside>
+        {/* Mobile Category Bar */}
+<div className="flex gap-3 overflow-x-auto md:hidden mb-4">
+  {["men", "women", "kids"].map((cat) => (
+    <button
+      key={cat}
+      onClick={() => {
+        setFilters((prev) => 
+          ({ ...prev, 
+            category: cat as "men" | "women" | "kids",
+            subcategory: null }));
+      }}
+      className={`px-4 py-2 rounded-full border whitespace-nowrap
+        ${filters.category === cat ? "bg-black text-white" : ""}
+      `}
+    >
+      {cat[0].toUpperCase() + cat.slice(1)}
+    </button>
+  ))}
+</div>
 
         {/* --- Products --- */}
         <main className="md:col-span-3">
@@ -174,6 +193,29 @@ useEffect(() => {
                       </button>
                     </div>
 
+                    {/* Sub categories for mobile */}
+<div className="md:hidden mt-4">
+  <h4 className="font-medium mb-2">Subcategories</h4>
+  <div className="flex flex-wrap gap-2 ">
+    {["tshirts", "shirts", "jeans", "sweatshirts", "sweatpants"].map((sub) => (
+      <button
+        key={sub}
+        onClick={() =>
+          setFilters((prev) => ({
+            ...prev,
+            subcategory: sub as Subcategory,
+          }))
+        }
+        className={`px-3 py-1 border rounded-md text-sm
+          ${filters.subcategory === sub ? "bg-black text-white" : ""}
+        `}
+      >
+        {sub}
+      </button>
+    ))}
+  </div>
+</div>
+
                     {/* --- Sort Section --- */}
                     <div className="border-b border-gray-200 pb-3 mb-3">
                       <h3 className="font-medium mb-2">Sort by</h3>
@@ -200,6 +242,8 @@ useEffect(() => {
                     {/* --- Filter Section --- */}
                     <div className="flex-1 overflow-auto">
                       <h3 className="font-medium mb-2">Filter by</h3>
+
+                      
 
                       <div className="space-y-4">
                         {/* Example Filter: Brand */}
