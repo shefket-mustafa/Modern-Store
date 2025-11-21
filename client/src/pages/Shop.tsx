@@ -26,9 +26,9 @@ export const Shop = ({ onAddToCart }: ShopProps) => {
   const subcategory = segments[2]; // e.g. "tshirts"
   const availableBrands = Array.from(new Set(products.map((p) => p.brand)));
   const availableColors = Array.from(
-    new Set(products.flatMap((p) => p.colors))
-  );
+    new Set(products.flatMap((p) => p.colors)));
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const formatTitle = () => {
@@ -105,10 +105,19 @@ export const Shop = ({ onAddToCart }: ShopProps) => {
     }));
   };
 
-  const filteredProducts = sortProducts(
-    filterProducts(products, filters),
-    sortBy
-  );
+    let results = filterProducts(products,filters);
+
+    if(searchQuery.trim() !== ""){
+      const query = searchQuery.toLowerCase();
+
+      results = results.filter((p) => 
+        p.name.toLowerCase().includes(query) ||
+      p.brand.toLowerCase().includes(query) ||
+      p.colors.some((c) => c.toLowerCase().includes(query))
+      )
+    }
+
+    const filteredProducts = sortProducts(results,sortBy);
 
   useEffect(() => {
     setFilters((prev) => ({
@@ -165,15 +174,26 @@ export const Shop = ({ onAddToCart }: ShopProps) => {
 
         {/* --- Products --- */}
         <main className="md:col-span-3">
-          <div className="flex items-end justify-between mb-6 flex-wrap gap-4">
+          <div className="flex items-center justify-between gap-4 mb-6">
             {/* Left section — title & product count */}
-            <div>
-              <h1 className="text-3xl font-bold mb-1">{useShop().shopTitle}</h1>
+            <div className="flex flex-col">
+              <h1 className="text-3xl font-bold mb-1">
+                {useShop().shopTitle}{" "}
+              </h1>
               <p className="text-muted-foreground text-sm">
                 {filteredProducts.length}{" "}
                 {filteredProducts.length === 1 ? "product" : "products"}
               </p>
+              <div />
             </div>
+
+            <input
+              type="text"
+              placeholder="Search by name, brand color..."
+              className="flex-1 border px-3 py-2 rounded-md max-w-[400px]"
+              value={searchQuery}
+               onChange={(e) => setSearchQuery(e.target.value)}
+            />
 
             {/* Right section — sort & filter */}
             <div className="flex items-center gap-3 text-sm">
