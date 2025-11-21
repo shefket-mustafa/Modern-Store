@@ -189,7 +189,7 @@ export const Shop = ({ onAddToCart }: ShopProps) => {
 
             <input
               type="text"
-              placeholder="Search by name, brand color..."
+              placeholder="Search by name, brand, color..."
               className="flex-1 border px-3 py-2 rounded-md max-w-[400px]"
               value={searchQuery}
                onChange={(e) => setSearchQuery(e.target.value)}
