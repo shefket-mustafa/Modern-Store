@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import type { Product } from '../types';
 
 interface LandingProps {
-  onAddToCart: (product: Product, size: any, quantity: number) => void;
+  onAddToCart: (product: Product, size: "XS" | "S" | "M" | "L" | "XL" | "XXL", quantity: number) => void;
 }
 
 
@@ -35,7 +35,7 @@ export const Landing = ({ onAddToCart }: LandingProps) => {
   
   featuredCollection()
 
-},[])
+},[BASE_URL])
 
   return (
     <div className="min-h-screen">
@@ -73,7 +73,7 @@ export const Landing = ({ onAddToCart }: LandingProps) => {
         <div className="container mx-auto px-4">
           <h2 className="text-4xl font-bold text-center mb-12">Shop By Category</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Link to="/shop?category=men" className="group relative h-96 overflow-hidden rounded-lg">
+            <Link to="/shop/men" className="group relative h-96 overflow-hidden rounded-lg">
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                 style={{
@@ -85,7 +85,7 @@ export const Landing = ({ onAddToCart }: LandingProps) => {
                 <h3 className="text-white text-4xl font-bold">MEN</h3>
               </div>
             </Link>
-            <Link to="/shop?category=women" className="group relative h-96 overflow-hidden rounded-lg">
+            <Link to="/shop/women" className="group relative h-96 overflow-hidden rounded-lg">
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                 style={{
@@ -97,16 +97,16 @@ export const Landing = ({ onAddToCart }: LandingProps) => {
                 <h3 className="text-white text-4xl font-bold">WOMEN</h3>
               </div>
             </Link>
-            <Link to="/shop" className="group relative h-96 overflow-hidden rounded-lg">
+            <Link to="/shop/kids" className="group relative h-96 overflow-hidden rounded-lg">
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
                 style={{
-                  backgroundImage: 'url(https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=800&q=80)',
+                  backgroundImage: 'url(https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/F89392s2.jpg?im=Resize,width=750)',
                 }}
               />
               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors" />
               <div className="absolute inset-0 flex items-center justify-center">
-                <h3 className="text-white text-4xl font-bold">ALL</h3>
+                <h3 className="text-white text-4xl font-bold">KIDS</h3>
               </div>
             </Link>
           </div>

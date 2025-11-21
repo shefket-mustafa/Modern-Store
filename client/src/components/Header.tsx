@@ -44,6 +44,12 @@ export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
             Men
           </Link>
           <Link
+            to="/shop/kids"
+            className="hover:text-accent hover:underline hover:shadow-lg transition font-medium"
+          >
+            Kids
+          </Link>
+          <Link
             to="/about"
             className="hover:text-accent hover:underline hover:shadow-lg transition font-medium"
           >
