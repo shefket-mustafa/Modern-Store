@@ -18,7 +18,7 @@ export const Header = ({ cartItemsCount, onCartClick }: HeaderProps) => {
   console.log(user);
   
   return (
-    <header className="border-b sticky top-0 bg-background z-50 shadow-sm backdrop-blur-md bg-white/75">
+    <header className="border-b sticky top-0 left-0 w-full md:sticky md:top-0 bg-background z-50 shadow-sm backdrop-blur-md bg-white/75">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link to="/" className="text-2xl font-bold">
           MODERN<span className="text-accent text-orange-500">STORE</span>
