@@ -106,6 +106,24 @@ export const Shop = ({ onAddToCart }: ShopProps) => {
   sortBy
 );
 
+useEffect(() => {
+  setFilters((prev) => ({
+    ...prev,
+    category: category === "men" || category === "women" || category === "kids"
+      ? category
+      : "all",
+    subcategory:
+      subcategory === "tshirts" ||
+      subcategory === "shirts" ||
+      subcategory === "jeans" ||
+      subcategory === "sweatshirts" ||
+      subcategory === "sweatpants"
+        ? subcategory
+        : null,
+  }));
+}, [category, subcategory, setFilters]);
+
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

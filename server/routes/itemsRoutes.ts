@@ -22,9 +22,8 @@ itemsRoutes.get("/", async(req: Request, res: Response) => {
 
         const items = await AdminItemModel.find(filter).lean();
 
-        if(!items.length) return res.status(404).json({error: "No items found!"})
 
-            res.json(items)
+            return res.json(items)
 
     }catch(err){
         return res.status(500).json({error: "Server error!"})
